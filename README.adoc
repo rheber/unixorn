@@ -1,0 +1,40 @@
+= README
+
+Unixorn aspires to be a Unix-like environment that:
+
+* can be embedded into a website
+
+* can be interacted with via the built-in shell
+
+* comes with a set of built-in commands
+
+* can be extended with additional commands
+
+== Usage
+
+=== In React
+
+import React, { Component } from 'react'
+
+import MyComponent from 'unixorn'
+
+class Example extends Component {
+  render() {
+    return <MyComponent />
+  }
+}
+
+== Development
+
+=== To install dependencies
+
+Execute `yarn install`.
+
+=== To run
+
+Execute `yarn start`.
+
+=== To run example app
+
+Execute `yarn install` and `yarn start` in the example folder.
+
