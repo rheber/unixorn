@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { ExampleComponent } from 'unixorn'
+import { Unixorn } from 'unixorn'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <div className="unixorn-react"><Unixorn /></div>;
 }
 
 export default App

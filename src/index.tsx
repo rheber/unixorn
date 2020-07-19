@@ -1,10 +1,26 @@
 import * as React from 'react'
-import styles from './styles.module.css'
+import Terminal from 'terminal-in-react';
+import { StyleSheet, css } from 'aphrodite';
 
-interface Props {
-  text: string
+const Unixorn: React.FunctionComponent = () => {
+  return (
+    <div className={css(styles.unixorn)}>
+      <Terminal
+        allowTabs={false}
+        hideTopBar
+      />
+    </div>
+  );
 }
 
-export const ExampleComponent = ({ text }: Props) => {
-  return <div className={styles.test}>Example Component: {text}</div>
-}
+const styles = StyleSheet.create({
+  unixorn: {
+    /* display: "flex", */
+    /* justifyContent: "center", */
+    /* alignItems: "center", */
+    height: "100%",
+    width: "100%",
+  }
+});
+
+export { Unixorn };
