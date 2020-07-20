@@ -20,9 +20,22 @@ body {
   width: 100%;
 }
 
-.unixorn-react {
-  height: 40%;
-  width: 80%;
+.app {
+  box-sizing: border-box;
+  padding: 1em;
+  height: 100%;
+  width: 100%;
+}
+
+.example {
+  display: flex;
+  flex-flow: column;
+  height: 50%;
+  width: 100%;
+}
+
+.unixorn-example {
+  flex-grow: 1;
 }
 
 code {

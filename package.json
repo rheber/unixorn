@@ -61,7 +61,7 @@
     "dist"
   ],
   "dependencies": {
-    "aphrodite": "^2.4.0",
+    "aphrodite-jss": "^2.1.0",
     "terminal-in-react": "^4.3.1"
   }
 }

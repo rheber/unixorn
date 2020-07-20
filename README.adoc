@@ -30,6 +30,10 @@ class Example extends Component {
 
 Execute `yarn install`.
 
+=== To build
+
+Execute `yarn run build`.
+
 === To run
 
 Execute `yarn start`.

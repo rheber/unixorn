@@ -15,3 +15,8 @@ declare module '*.svg' {
   export default svgUrl;
   export { svgComponent as ReactComponent }
 }
+
+declare module 'aphrodite-jss' {
+  const StyleSheet: any;
+  const css: any;
+}
