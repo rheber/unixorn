@@ -12,9 +12,8 @@ const App = () => {
         </div>
       </div>
       <div className="example">
-        <h1>React example</h1>
-        <div className="unixorn-example">
-          <Unixorn />
+        <h1>Non-React example</h1>
+        <div id="non-react-example" className="unixorn-example">
         </div>
       </div>
     </div>

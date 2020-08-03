@@ -1,4 +1,5 @@
 import * as React from 'react'
+import ReactDOM from 'react-dom'
 import Terminal from 'terminal-in-react';
 import { StyleSheet, css } from 'aphrodite-jss';
 
@@ -32,4 +33,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Unixorn };
+const initUnixorn = (element: HTMLElement) => {
+  ReactDOM.render(<Unixorn />, element)
+};
+
+export { initUnixorn, Unixorn };

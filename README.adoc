@@ -1,5 +1,7 @@
 = README
 
+== Purpose
+
 Unixorn aspires to be a Unix-like environment that:
 
 * can be embedded into a website
@@ -14,15 +16,27 @@ Unixorn aspires to be a Unix-like environment that:
 
 === In React
 
+....
 import React, { Component } from 'react'
 
-import MyComponent from 'unixorn'
+import Unixorn from 'unixorn'
 
 class Example extends Component {
   render() {
-    return <MyComponent />
+    return <Unixorn />
   }
 }
+....
+
+=== Without React
+
+....
+import { initUnixorn } from 'unixorn'
+
+const nonReactDomNode = document.getElementById('example')
+
+initUnixorn(nonReactDomNode)
+....
 
 == Development
 
