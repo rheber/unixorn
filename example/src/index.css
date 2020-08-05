@@ -28,14 +28,16 @@ body {
 }
 
 .example {
-  display: flex;
-  flex-flow: column;
   height: 50%;
   width: 100%;
 }
 
 .unixorn-example {
-  flex-grow: 1;
+  height: 80%
+}
+
+h1 {
+  margin: 0;
 }
 
 code {
