@@ -21,9 +21,11 @@ import React, { Component } from 'react'
 
 import Unixorn from 'unixorn'
 
+const configuration = {}
+
 class Example extends Component {
   render() {
-    return <Unixorn />
+    return <Unixorn {...configuration} />
   }
 }
 ....
@@ -33,9 +35,11 @@ class Example extends Component {
 ....
 import { initUnixorn } from 'unixorn'
 
+const configuration = {}
+
 const nonReactDomNode = document.getElementById('example')
 
-initUnixorn(nonReactDomNode)
+initUnixorn(nonReactDomNode, configuration)
 ....
 
 == Development
@@ -56,3 +60,17 @@ Execute `yarn start`.
 
 Execute `yarn install` and `yarn start` in the example folder.
 
+== Configuration
+
+[%header,cols="1,1,1a"]
+.Configuration
+|===
+|Name
+|Type
+|Description
+
+|startupMessage
+|string
+|The message to display when the terminal starts.
+
+|===

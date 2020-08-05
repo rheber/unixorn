@@ -3,11 +3,16 @@ import ReactDOM from 'react-dom'
 import Terminal from 'terminal-in-react';
 import { StyleSheet, css } from 'aphrodite-jss';
 
-const Unixorn: React.FunctionComponent = () => {
+export interface UnixornConfiguration {
+  startupMessage?: string;
+}
+
+const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   return (
     <div className={css(styles.unixorn)}>
       <Terminal
         allowTabs={false}
+        msg={props.startupMessage}
         hideTopBar
       />
     </div>
@@ -33,8 +38,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const initUnixorn = (element: HTMLElement) => {
-  ReactDOM.render(<Unixorn />, element)
+const initUnixorn = (
+  element: HTMLElement,
+  configuration?: UnixornConfiguration
+) => {
+  ReactDOM.render(<Unixorn {...configuration} />, element)
 };
 
 export { initUnixorn, Unixorn };
