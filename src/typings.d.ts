@@ -1,3 +1,5 @@
+// Types to get the project to compile.
+
 /**
  * Default CSS definition for typescript,
  * will be overridden with file-specific definitions by rollup

@@ -2,18 +2,39 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 import Terminal from 'terminal-in-react';
 import { StyleSheet, css } from 'aphrodite-jss';
-
-export interface UnixornConfiguration {
-  startupMessage?: string;
-}
+import { UnixornCommand, UnixornConfiguration } from './types';
+import { defaultCommands } from './commands';
+import { unixornKernelImplementation } from './kernel';
 
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
+  const commands = props.commands || defaultCommands;
+
+  const descriptions = Object.keys(commands).reduce((acc, key) => {
+    const command: UnixornCommand = commands[key];
+    return {
+      ...acc,
+      key: `${command.usage}: ${command.summary}`,
+    };
+  }, {});
+
+  const actions = Object.keys(commands).reduce((acc, key) => {
+    const command: UnixornCommand = commands[key];
+    return {
+      ...acc,
+      key: (args: string[], _print: () => void, _runCmd: () => void) => {
+        command.action(unixornKernelImplementation, args);
+      },
+    };
+  }, {});
+
   return (
     <div className={css(styles.unixorn)}>
       <Terminal
         allowTabs={false}
-        msg={props.startupMessage}
+        commands={actions}
+        description={descriptions}
         hideTopBar
+        msg={props.startupMessage}
       />
     </div>
   );
@@ -45,4 +66,9 @@ const initUnixorn = (
   ReactDOM.render(<Unixorn {...configuration} />, element)
 };
 
-export { initUnixorn, Unixorn };
+export {
+  initUnixorn,
+  Unixorn,
+  UnixornCommand,
+  UnixornConfiguration,
+};
