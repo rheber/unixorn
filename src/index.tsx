@@ -9,19 +9,11 @@ import { unixornKernelImplementation } from './kernel';
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const commands = props.commands || defaultCommands;
 
-  const descriptions = Object.keys(commands).reduce((acc, key) => {
-    const command: UnixornCommand = commands[key];
-    return {
-      ...acc,
-      key: `${command.usage}: ${command.summary}`,
-    };
-  }, {});
-
   const actions = Object.keys(commands).reduce((acc, key) => {
     const command: UnixornCommand = commands[key];
     return {
       ...acc,
-      key: (args: string[], _print: () => void, _runCmd: () => void) => {
+      [command.name]: (args: string[], _print: () => void, _runCmd: () => void) => {
         command.action(unixornKernelImplementation, args);
       },
     };
@@ -32,7 +24,6 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       <Terminal
         allowTabs={false}
         commands={actions}
-        description={descriptions}
         hideTopBar
         msg={props.startupMessage}
       />

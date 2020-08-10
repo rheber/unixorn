@@ -20,6 +20,11 @@ export interface UnixornConfiguration {
  */
 export interface UnixornCommand {
   /**
+   * The name of the command.
+   */
+  name: string;
+
+  /**
    * A string that demonstrates how the command is used.
    */
   usage: string;
