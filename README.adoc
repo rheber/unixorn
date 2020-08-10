@@ -60,17 +60,67 @@ Execute `yarn start`.
 
 Execute `yarn install` and `yarn start` in the example folder.
 
-== Configuration
+== Types
 
 [%header,cols="1,1,1a"]
-.Configuration
+.UnixornCommand
 |===
 |Name
 |Type
 |Description
 
+|action
+|(kernel: UnixornKernel, params: string[]) => void
+|The code of the command.
+
+|name
+|string
+|The name of the command.
+
+|summary
+|string
+|A string summarising the purpose of the command.
+
+|usage
+|string
+|A string demonstrating how the command is used.
+
+|===
+
+[%header,cols="1,1,1a"]
+.UnixornConfiguration
+|===
+|Name
+|Type
+|Description
+
+|commands
+|UnixornCommand
+|Commands to use instead of the default commands.
+
 |startupMessage
 |string
 |The message to display when the terminal starts.
+
+|===
+
+[%header,cols="1,1,1a"]
+.UnixornKernel
+|===
+|Name
+|Type
+|Description
+
+|printErr
+|(text: string) => void
+|Write text to stderr.
+
+|printOut
+|(text: string) => void
+|Write text to stdout.
+
+|visit
+|(url: string) => void
+|Visit a URL.
 
 |===

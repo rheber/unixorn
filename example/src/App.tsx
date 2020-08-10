@@ -3,6 +3,16 @@ import React from 'react'
 import { Unixorn, UnixornConfiguration } from 'unixorn'
 
 const configuration: UnixornConfiguration = {
+  commands: [
+    {
+      name: "wikipedia",
+      usage: "wikipedia",
+      summary: "Visit Wikipedia.",
+      action: (kernel, _params) => {
+        kernel.visit("en.wikipedia.org");
+      },
+    }
+  ],
   startupMessage: "Welcome to my shell!",
 };
 
