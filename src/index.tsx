@@ -1,11 +1,11 @@
-import * as React from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import Terminal from 'terminal-in-react';
-import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornCommand, UnixornConfiguration } from './types';
-import { defaultCommands } from './commands';
-import { unixornKernelImplementation } from './kernel';
+//import { defaultCommands } from './commands';
+//import { unixornKernelImplementation } from './kernel';
+import { Unixorn } from './Unixorn';
 
+/*
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const commands = props.commands || defaultCommands;
 
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     },
   },
 });
+ */
 
 const initUnixorn = (
   element: HTMLElement,
