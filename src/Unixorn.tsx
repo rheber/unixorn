@@ -2,10 +2,12 @@ import React, {useState, useCallback} from 'react'
 import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornConfiguration } from './types';
 
-const Unixorn: React.FunctionComponent<UnixornConfiguration> = _props => {
+const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [input, setInput] = useState("");
+  const prompt = props.prompt || "> "
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
     if (e.key.length === 1) {
       setInput(input + e.key);
     }
@@ -17,7 +19,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = _props => {
       onKeyDown={handleKeyDown}
       tabIndex={1}
     >
-      <p className={css(styles.text)}>{input}</p>
+      <p className={css(styles.text)}>{`${prompt}${input}`}</p>
     </div>
   );
 };
@@ -31,6 +33,8 @@ const styles = StyleSheet.create({
   text: {
     color: "green",
     fontFamily: "monospace",
+    overflowWrap: "break-word",
+    whiteSpace: "pre-wrap",
   },
 })
 

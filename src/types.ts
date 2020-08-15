@@ -10,6 +10,11 @@ export interface UnixornConfiguration {
   commands?: UnixornCommand[];
 
   /**
+   * The string to use instead of the default prompt.
+   */
+  prompt?: string;
+
+  /**
    * The message to show when Unixorn starts.
    */
   startupMessage?: string;
