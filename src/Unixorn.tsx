@@ -5,7 +5,7 @@ import { UnixornConfiguration } from './types';
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = _props => {
   return (
     <div
-      className={css(styles.base)}
+      className={`${css(styles.base)} unixorn-base`}
       onKeyDown={e => console.log(e)}
       tabIndex={1}
     />
