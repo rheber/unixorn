@@ -8,6 +8,9 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     e.preventDefault();
+    if (e.key === "Backspace") {
+      setInput(input.slice(0, -1));
+    }
     if (e.key.length === 1) {
       setInput(input + e.key);
     }
