@@ -3,18 +3,19 @@ import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornConfiguration } from './types';
 
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
-  const [input, setInput] = useState("");
+  const [inputPreCursor, setInputPreCursor] = useState("");
+  const [inputPostCursor] = useState("");
   const prompt = props.prompt || "> "
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (e.key === "Backspace") {
-      setInput(input.slice(0, -1));
+      setInputPreCursor(inputPreCursor.slice(0, -1));
     }
     if (e.key.length === 1) {
-      setInput(input + e.key);
+      setInputPreCursor(inputPreCursor + e.key);
     }
-  }, [input]);
+  }, [inputPreCursor]);
 
   return (
     <div
@@ -22,7 +23,9 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       onKeyDown={handleKeyDown}
       tabIndex={1}
     >
-      <p className={css(styles.text)}>{`${prompt}${input}`}</p>
+      <span className={css(styles.text)}>{`${prompt}${inputPreCursor}`}</span>
+      <span className={css(styles.cursor)}>|</span>
+      <span className={css(styles.text)}>{inputPostCursor}</span>
     </div>
   );
 };
@@ -32,6 +35,9 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     height: "100%",
     width: "100%",
+  },
+  cursor: {
+    color: "green",
   },
   text: {
     color: "green",
