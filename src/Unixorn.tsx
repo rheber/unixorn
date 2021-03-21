@@ -3,8 +3,19 @@ import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornConfiguration } from './types';
 import Tweenful, { percentage } from 'react-tweenful';
 
+enum HistoryItemType {
+  Input,
+  Output,
+  Error,
+}
+
+interface HistoryItem {
+  type: HistoryItemType;
+  content: string;
+}
+
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
-  const [history, setHistory] = useState<string[]>([]);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [inputPreCursor, setInputPreCursor] = useState("");
   const [inputPostCursor, setInputPostCursor] = useState("");
   const baseRef = useRef<null | HTMLDivElement>(null);
@@ -42,7 +53,10 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       case "Enter":
         const newHistory = [...history];
         const fullLine = inputPreCursor + inputPostCursor;
-        newHistory.push(fullLine);
+        newHistory.push({
+          type: HistoryItemType.Input,
+          content: fullLine,
+        });
         setHistory(newHistory);
         setInputPreCursor("");
         setInputPostCursor("");
@@ -86,7 +100,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       {history.map((item, idx) => {
         return (
           <div key={idx}>
-            <span className={css(styles.text)}>{prompt + item}</span>
+            <span className={css(styles.text)}>{prompt + item.content}</span>
           </div>
         );
       })}
