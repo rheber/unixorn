@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react'
+import React, {useState, useCallback, useRef, useEffect} from 'react'
 import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornConfiguration } from './types';
 import Tweenful, { percentage } from 'react-tweenful';
@@ -7,7 +7,14 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [history, setHistory] = useState<string[]>([]);
   const [inputPreCursor, setInputPreCursor] = useState("");
   const [inputPostCursor, setInputPostCursor] = useState("");
+  const baseRef = useRef<null | HTMLDivElement>(null);
   const prompt = props.prompt || "> "
+
+  useEffect(() => {
+    if (baseRef && baseRef.current) {
+      baseRef.current.scrollTop = baseRef.current.scrollHeight;
+    }
+  }, [history]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -68,6 +75,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     <div
       className={`${css(styles.base)} unixorn-base`}
       onKeyDown={handleKeyDown}
+      ref={baseRef}
       tabIndex={1}
     >
       {props.startupMessage && (
@@ -105,6 +113,7 @@ const styles = StyleSheet.create({
   base: {
     backgroundColor: "black",
     height: "100%",
+    overflowY: "auto",
     width: "100%",
   },
   cursor: {
