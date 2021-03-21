@@ -61,6 +61,7 @@
     "dist"
   ],
   "dependencies": {
-    "aphrodite-jss": "^2.1.0"
+    "aphrodite-jss": "^2.1.0",
+    "react-tweenful": "^0.1.0"
   }
 }

@@ -22,3 +22,13 @@ declare module 'aphrodite-jss' {
   const StyleSheet: any;
   const css: any;
 }
+
+declare module 'react-tweenful' {
+  const Tweenful: {
+    span: any;
+  };
+  const elastic: any;
+  const percentage: any;
+  export default Tweenful;
+  export { elastic, percentage };
+}

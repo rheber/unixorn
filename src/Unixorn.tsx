@@ -1,6 +1,7 @@
 import React, {useState, useCallback} from 'react'
 import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornConfiguration } from './types';
+import Tweenful, { percentage } from 'react-tweenful';
 
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [history, setHistory] = useState<string[]>([]);
@@ -57,7 +58,17 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       })}
       <div>
         <span className={css(styles.text)}>{`${prompt}${inputPreCursor}`}</span>
-        <span className={css(styles.cursor)}>|</span>
+        <Tweenful.span
+          animate={percentage({
+            '0%': {opacity: 1},
+            '50%': {opacity: 0},
+            '100%': {opacity: 1},
+          })}
+          className={css(styles.cursor)}
+          duration={1500}
+          easing="easeInOutCubic"
+          loop={true}
+        >|</Tweenful.span>
         <span className={css(styles.text)}>{inputPostCursor}</span>
       </div>
     </div>
