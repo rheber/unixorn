@@ -41,7 +41,25 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         setInputPostCursor("");
         break;
       default:
-        setInputPreCursor(inputPreCursor + e.key);
+        if (e.key.length === 1) {
+          if (!e.ctrlKey) {
+            setInputPreCursor(inputPreCursor + e.key);
+          }
+          if (e.ctrlKey) {
+            switch (e.key) {
+              case 'a':
+              case 'A':
+                setInputPostCursor(inputPreCursor + inputPostCursor);
+                setInputPreCursor("");
+                break;
+              case 'e':
+              case 'E':
+                setInputPreCursor(inputPreCursor + inputPostCursor);
+                setInputPostCursor("");
+                break;
+            }
+          }
+        }
         break;
     }
   }, [inputPreCursor, inputPostCursor, history]);
