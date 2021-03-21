@@ -1,7 +1,7 @@
 {
   "name": "unixorn",
   "version": "1.0.0",
-  "description": "Made with create-react-library",
+  "description": "Unix-like environment for the web",
   "author": "rheber",
   "license": "MIT",
   "repository": "rheber/unixorn",

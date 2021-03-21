@@ -50,6 +50,16 @@ export interface UnixornCommand {
  */
 export interface UnixornKernel {
   /**
+   * Move the cursor to the end of the line.
+   */
+  moveCursorToEnd: () => void;
+
+  /**
+   * Move the cursor to the start of the line.
+   */
+  moveCursorToStart: () => void;
+
+  /**
    * Print text to stderr.
    */
   printErr: (text: string) => void;

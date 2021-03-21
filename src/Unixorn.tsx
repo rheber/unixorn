@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react'
 import { StyleSheet, css } from 'aphrodite-jss';
-import { UnixornConfiguration } from './types';
+import { UnixornConfiguration, UnixornKernel } from './types';
 import Tweenful, { percentage } from 'react-tweenful';
 
 enum HistoryItemType {
@@ -20,6 +20,30 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [inputPostCursor, setInputPostCursor] = useState("");
   const baseRef = useRef<null | HTMLDivElement>(null);
   const prompt = props.prompt || "> "
+
+  const kernel: UnixornKernel = {
+    moveCursorToEnd: () => {
+      setInputPreCursor(inputPreCursor + inputPostCursor);
+      setInputPostCursor("");
+    },
+
+    moveCursorToStart: () => {
+      setInputPostCursor(inputPreCursor + inputPostCursor);
+      setInputPreCursor("");
+    },
+
+    printErr: (text: string) => console.error(text),
+
+    printOut: (text: string) => console.info(text),
+
+    visit: (url: string) => {
+      if(url.includes('://')) {
+        window.open(url);
+        return;
+      }
+      window.open(`https://${url}`);
+    },
+  };
 
   useEffect(() => {
     if (baseRef && baseRef.current) {
@@ -70,13 +94,11 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
             switch (e.key) {
               case 'a':
               case 'A':
-                setInputPostCursor(inputPreCursor + inputPostCursor);
-                setInputPreCursor("");
+                kernel.moveCursorToStart();
                 break;
               case 'e':
               case 'E':
-                setInputPreCursor(inputPreCursor + inputPostCursor);
-                setInputPostCursor("");
+                kernel.moveCursorToEnd();
                 break;
             }
           }

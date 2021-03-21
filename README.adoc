@@ -111,6 +111,14 @@ Execute `yarn install` and `yarn start` in the example folder.
 |Type
 |Description
 
+|moveCursorToEnd
+|() => void
+|Move cursor to end of line.
+
+|moveCursorToStart
+|() => void
+|Move cursor to start of line.
+
 |printErr
 |(text: string) => void
 |Write text to stderr.
