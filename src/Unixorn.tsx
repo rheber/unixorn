@@ -52,6 +52,11 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       onKeyDown={handleKeyDown}
       tabIndex={1}
     >
+      {props.startupMessage && (
+        <div>
+          <span className={css(styles.text)}>{props.startupMessage}</span>
+        </div>
+      )}
       {history.map((item, idx) => {
         return (
           <div key={idx}>
