@@ -3,6 +3,7 @@ import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornConfiguration } from './types';
 
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
+  const [history, setHistory] = useState<string[]>([]);
   const [inputPreCursor, setInputPreCursor] = useState("");
   const [inputPostCursor, setInputPostCursor] = useState("");
   const prompt = props.prompt || "> "
@@ -30,6 +31,11 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       case "Delete":
         setInputPostCursor(inputPostCursor.substr(1));
         break;
+      case "Enter":
+        setHistory([...history, inputPreCursor + inputPostCursor]);
+        setInputPreCursor("");
+        setInputPostCursor("");
+        break;
       default:
         setInputPreCursor(inputPreCursor + e.key);
         break;
@@ -42,9 +48,18 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       onKeyDown={handleKeyDown}
       tabIndex={1}
     >
-      <span className={css(styles.text)}>{`${prompt}${inputPreCursor}`}</span>
-      <span className={css(styles.cursor)}>|</span>
-      <span className={css(styles.text)}>{inputPostCursor}</span>
+      {history.map((item, idx) => {
+        return (
+          <div key={idx}>
+            <span className={css(styles.text)}>{prompt + item}</span>
+          </div>
+        );
+      })}
+      <div>
+        <span className={css(styles.text)}>{`${prompt}${inputPreCursor}`}</span>
+        <span className={css(styles.cursor)}>|</span>
+        <span className={css(styles.text)}>{inputPostCursor}</span>
+      </div>
     </div>
   );
 };
