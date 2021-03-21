@@ -32,9 +32,23 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       setInputPreCursor("");
     },
 
-    printErr: (text: string) => console.error(text),
+    printErr: (text: string) => {
+      const newHistory = [...history];
+      newHistory.push({
+        type: HistoryItemType.Error,
+        content: text,
+      });
+      setHistory(newHistory);
+    },
 
-    printOut: (text: string) => console.info(text),
+    printOut: (text: string) => {
+      const newHistory = [...history];
+      newHistory.push({
+        type: HistoryItemType.Output,
+        content: text,
+      });
+      setHistory(newHistory);
+    },
 
     visit: (url: string) => {
       if(url.includes('://')) {
@@ -116,18 +130,33 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     >
       {props.startupMessage && (
         <div>
-          <span className={css(styles.text)}>{props.startupMessage}</span>
+          <span className={css(styles.text, styles.textOutput)}>{props.startupMessage}</span>
         </div>
       )}
       {history.map((item, idx) => {
-        return (
-          <div key={idx}>
-            <span className={css(styles.text)}>{prompt + item.content}</span>
-          </div>
-        );
+        switch (item.type) {
+          case HistoryItemType.Input:
+            return (
+              <div key={idx}>
+                <span className={css(styles.text, styles.textInput)}>{prompt + item.content}</span>
+              </div>
+            );
+          case HistoryItemType.Output:
+            return (
+              <div key={idx}>
+                <span className={css(styles.text, styles.textOutput)}>{item.content}</span>
+              </div>
+            );
+          case HistoryItemType.Error:
+            return (
+              <div key={idx}>
+                <span className={css(styles.text, styles.textError)}>{item.content}</span>
+              </div>
+            );
+        }
       })}
       <div>
-        <span className={css(styles.text)}>{`${prompt}${inputPreCursor}`}</span>
+        <span className={css(styles.text, styles.textInput)}>{`${prompt}${inputPreCursor}`}</span>
         <Tweenful.span
           animate={percentage({
             '0%': {opacity: 1},
@@ -139,7 +168,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           easing="easeInOutCubic"
           loop={true}
         >|</Tweenful.span>
-        <span className={css(styles.text)}>{inputPostCursor}</span>
+        <span className={css(styles.text, styles.textInput)}>{inputPostCursor}</span>
       </div>
     </div>
   );
@@ -156,10 +185,18 @@ const styles = StyleSheet.create({
     color: "green",
   },
   text: {
-    color: "green",
     fontFamily: "monospace",
     overflowWrap: "break-word",
     whiteSpace: "pre-wrap",
+  },
+  textInput: {
+    color: "green"
+  },
+  textOutput: {
+    color: "white"
+  },
+  textError: {
+    color: "red"
   },
 })
 
