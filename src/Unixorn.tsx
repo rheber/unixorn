@@ -33,7 +33,10 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         setInputPostCursor(inputPostCursor.substr(1));
         break;
       case "Enter":
-        setHistory([...history, inputPreCursor + inputPostCursor]);
+        const newHistory = [...history];
+        const fullLine = inputPreCursor + inputPostCursor;
+        newHistory.push(fullLine);
+        setHistory(newHistory);
         setInputPreCursor("");
         setInputPostCursor("");
         break;
@@ -41,7 +44,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         setInputPreCursor(inputPreCursor + e.key);
         break;
     }
-  }, [inputPreCursor, inputPostCursor]);
+  }, [inputPreCursor, inputPostCursor, history]);
 
   return (
     <div
