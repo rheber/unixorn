@@ -95,6 +95,15 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           type: HistoryItemType.Input,
           content: fullLine,
         });
+
+        const tokens = fullLine.split(/\s+/).filter(token => token !== "");
+        if (tokens.length > 0) {
+          newHistory.push({
+            type: HistoryItemType.Error,
+            content: `Unrecognized command: ${tokens[0]}`,
+          });
+        }
+
         setHistory(newHistory);
         setInputPreCursor("");
         setInputPostCursor("");
