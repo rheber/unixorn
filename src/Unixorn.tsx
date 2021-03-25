@@ -1,22 +1,12 @@
-import React, {useState, useCallback, useRef, useEffect} from 'react'
+import React, {useState, useCallback, useRef, useEffect, useReducer} from 'react'
 import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornConfiguration, UnixornKernel, UnixornCommand } from './types';
 import Tweenful, { percentage } from 'react-tweenful';
 import {defaultCommands} from './commands';
-
-enum HistoryItemType {
-  Input,
-  Output,
-  Error,
-}
-
-interface HistoryItem {
-  type: HistoryItemType;
-  content: string;
-}
+import { historyReducer, HistoryItemType } from './reducers/history';
 
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
-  const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [history, historyDispatch] = useReducer(historyReducer, []);
   const [inputPreCursor, setInputPreCursor] = useState("");
   const [inputPostCursor, setInputPostCursor] = useState("");
   const baseRef = useRef<null | HTMLDivElement>(null);
@@ -37,21 +27,17 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     },
 
     printErr: (text: string) => {
-      const newHistory = [...history];
-      newHistory.push({
+      historyDispatch({
         type: HistoryItemType.Error,
         content: text,
       });
-      setHistory(newHistory);
     },
 
     printOut: (text: string) => {
-      const newHistory = [...history];
-      newHistory.push({
+      historyDispatch({
         type: HistoryItemType.Output,
         content: text,
       });
-      setHistory(newHistory);
     },
 
     visit: (url: string) => {
@@ -93,9 +79,8 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         setInputPostCursor(inputPostCursor.substr(1));
         break;
       case "Enter":
-        const newHistory = [...history];
         const fullLine = inputPreCursor + inputPostCursor;
-        newHistory.push({
+        historyDispatch({
           type: HistoryItemType.Input,
           content: fullLine,
         });
@@ -107,14 +92,13 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           if (command) {
             command.action(kernel, tokens);
           } else {
-            newHistory.push({
+            historyDispatch({
               type: HistoryItemType.Error,
               content: `Unrecognized command: ${commandName}`,
             });
           }
         }
 
-        setHistory(newHistory);
         setInputPreCursor("");
         setInputPostCursor("");
         break;
