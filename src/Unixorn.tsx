@@ -1,7 +1,8 @@
 import React, {useState, useCallback, useRef, useEffect} from 'react'
 import { StyleSheet, css } from 'aphrodite-jss';
-import { UnixornConfiguration, UnixornKernel } from './types';
+import { UnixornConfiguration, UnixornKernel, UnixornCommand } from './types';
 import Tweenful, { percentage } from 'react-tweenful';
+import {defaultCommands} from './commands';
 
 enum HistoryItemType {
   Input,
@@ -20,6 +21,9 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [inputPostCursor, setInputPostCursor] = useState("");
   const baseRef = useRef<null | HTMLDivElement>(null);
   const prompt = props.prompt || "> "
+
+  const commands = props.commands || defaultCommands;
+  const commandMap: Map<string, UnixornCommand> = new Map(commands.map(command => [command.name, command]));
 
   const kernel: UnixornKernel = {
     moveCursorToEnd: () => {
@@ -98,10 +102,16 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
 
         const tokens = fullLine.split(/\s+/).filter(token => token !== "");
         if (tokens.length > 0) {
-          newHistory.push({
-            type: HistoryItemType.Error,
-            content: `Unrecognized command: ${tokens[0]}`,
-          });
+          const commandName = tokens[0];
+          const command = commandMap.get(commandName);
+          if (command) {
+            command.action(kernel, tokens);
+          } else {
+            newHistory.push({
+              type: HistoryItemType.Error,
+              content: `Unrecognized command: ${commandName}`,
+            });
+          }
         }
 
         setHistory(newHistory);
