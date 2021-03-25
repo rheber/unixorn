@@ -2,15 +2,13 @@
 
 == Purpose
 
-Unixorn aspires to be a Unix-like environment that:
+Unixorn aspires to be a Unix-like environment with a shell interface that:
 
 * can be embedded into a website
 
-* can be interacted with via the built-in shell
+* comes with a set of built-in commands and keybindings
 
-* comes with a set of built-in commands
-
-* can be extended with additional commands
+* can be extended with additional commands, keybindings and styles
 
 == Usage
 
@@ -59,6 +57,10 @@ Execute `yarn start`.
 === To run example app
 
 Execute `yarn install` and `yarn start` in the example folder.
+
+=== To run the test suite and linter
+
+Execute `yarn test`.
 
 == Types
 

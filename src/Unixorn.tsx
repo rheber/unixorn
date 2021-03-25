@@ -135,7 +135,11 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     >
       {props.startupMessage && (
         <div>
-          <span className={css(styles.text, styles.textOutput)}>{props.startupMessage}</span>
+          <span
+            className={`${css(styles.text, styles.textOutput)} unixorn-output unixorn-startup-message`}
+          >
+            {props.startupMessage}
+          </span>
         </div>
       )}
       {history.map((item, idx) => {
@@ -143,39 +147,69 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           case HistoryItemType.Input:
             return (
               <div key={idx}>
-                <span className={css(styles.text, styles.textInput)}>{prompt + item.content}</span>
+                <span
+                  className={`${css(styles.text, styles.prompt)} unixorn-prompt`}
+                >
+                  {prompt}
+                </span>
+                <span
+                  className={`${css(styles.text, styles.textInput)} unixorn-input`}
+                >
+                  {item.content}
+                </span>
               </div>
             );
           case HistoryItemType.Output:
             return (
               <div key={idx}>
-                <span className={css(styles.text, styles.textOutput)}>{item.content}</span>
+                <span
+                  className={`${css(styles.text, styles.textOutput)} unixorn-output`}
+                >
+                  {item.content}
+                </span>
               </div>
             );
           case HistoryItemType.Error:
             return (
               <div key={idx}>
-                <span className={css(styles.text, styles.textError)}>{item.content}</span>
+                <span
+                  className={`${css(styles.text, styles.textError)} unixorn-error`}
+                >
+                  {item.content}
+                </span>
               </div>
             );
         }
       })}
       <div>
-        <span className={css(styles.text, styles.textInput)}>{`${prompt}${inputPreCursor}`}</span>
+        <span
+          className={`${css(styles.text, styles.prompt)} unixorn-prompt unixorn-current`}
+        >
+          {prompt}
+        </span>
+        <span
+          className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
+        >
+          {inputPreCursor}
+        </span>
         <TweenfulSpan
           animate={percentage({
             '0%': { opacity: 1 },
             '50%': { opacity: 0 },
             '100%': { opacity: 1 },
           })}
-          className={css(styles.cursor)}
+          className={`${css(styles.cursor)} unixorn-cursor`}
           duration={1500}
           easing='easeInOutCubic'
           loop
         >
           |
         </TweenfulSpan>
-        <span className={css(styles.text, styles.textInput)}>{inputPostCursor}</span>
+        <span
+          className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
+        >
+          {inputPostCursor}
+        </span>
       </div>
     </div>
   );
@@ -189,6 +223,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   cursor: {
+    color: 'green',
+  },
+  prompt: {
     color: 'green',
   },
   text: {
