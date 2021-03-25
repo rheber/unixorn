@@ -1,16 +1,16 @@
-import React, {useState, useCallback, useRef, useEffect, useReducer} from 'react'
+import React, { useState, useCallback, useRef, useEffect, useReducer } from 'react';
 import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornConfiguration, UnixornKernel, UnixornCommand } from './types';
 import Tweenful, { percentage } from 'react-tweenful';
-import {defaultCommands} from './commands';
+import { defaultCommands } from './commands';
 import { historyReducer, HistoryItemType } from './reducers/history';
 
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [history, historyDispatch] = useReducer(historyReducer, []);
-  const [inputPreCursor, setInputPreCursor] = useState("");
-  const [inputPostCursor, setInputPostCursor] = useState("");
+  const [inputPreCursor, setInputPreCursor] = useState('');
+  const [inputPostCursor, setInputPostCursor] = useState('');
   const baseRef = useRef<null | HTMLDivElement>(null);
-  const prompt = props.prompt || "> "
+  const prompt = props.prompt || '> ';
 
   const commands = props.commands || defaultCommands;
   const commandMap: Map<string, UnixornCommand> = new Map(commands.map(command => [command.name, command]));
@@ -18,12 +18,12 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const kernel: UnixornKernel = {
     moveCursorToEnd: () => {
       setInputPreCursor(inputPreCursor + inputPostCursor);
-      setInputPostCursor("");
+      setInputPostCursor('');
     },
 
     moveCursorToStart: () => {
       setInputPostCursor(inputPreCursor + inputPostCursor);
-      setInputPreCursor("");
+      setInputPreCursor('');
     },
 
     printErr: (text: string) => {
@@ -41,7 +41,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     },
 
     visit: (url: string) => {
-      if(url.includes('://')) {
+      if (url.includes('://')) {
         window.open(url);
         return;
       }
@@ -58,34 +58,34 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     e.preventDefault();
     switch (e.key) {
-      case "ArrowLeft":
+      case 'ArrowLeft':
         if (inputPreCursor.length > 0) {
           const lastChar = inputPreCursor.slice(-1);
           setInputPreCursor(inputPreCursor.slice(0, -1));
           setInputPostCursor(lastChar + inputPostCursor);
         }
         break;
-      case "ArrowRight":
+      case 'ArrowRight':
         if (inputPostCursor.length > 0) {
           const firstChar = inputPostCursor[0];
           setInputPostCursor(inputPostCursor.substr(1));
           setInputPreCursor(inputPreCursor + firstChar);
         }
         break;
-      case "Backspace":
+      case 'Backspace':
         setInputPreCursor(inputPreCursor.slice(0, -1));
         break;
-      case "Delete":
+      case 'Delete':
         setInputPostCursor(inputPostCursor.substr(1));
         break;
-      case "Enter":
+      case 'Enter':
         const fullLine = inputPreCursor + inputPostCursor;
         historyDispatch({
           type: HistoryItemType.Input,
           content: fullLine,
         });
 
-        const tokens = fullLine.split(/\s+/).filter(token => token !== "");
+        const tokens = fullLine.split(/\s+/).filter(token => token !== '');
         if (tokens.length > 0) {
           const commandName = tokens[0];
           const command = commandMap.get(commandName);
@@ -99,8 +99,8 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           }
         }
 
-        setInputPreCursor("");
-        setInputPostCursor("");
+        setInputPreCursor('');
+        setInputPostCursor('');
         break;
       default:
         if (e.key.length === 1) {
@@ -123,6 +123,8 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         break;
     }
   }, [inputPreCursor, inputPostCursor, history]);
+
+  const TweenfulSpan = Tweenful.span;
 
   return (
     <div
@@ -160,17 +162,19 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       })}
       <div>
         <span className={css(styles.text, styles.textInput)}>{`${prompt}${inputPreCursor}`}</span>
-        <Tweenful.span
+        <TweenfulSpan
           animate={percentage({
-            '0%': {opacity: 1},
-            '50%': {opacity: 0},
-            '100%': {opacity: 1},
+            '0%': { opacity: 1 },
+            '50%': { opacity: 0 },
+            '100%': { opacity: 1 },
           })}
           className={css(styles.cursor)}
           duration={1500}
-          easing="easeInOutCubic"
-          loop={true}
-        >|</Tweenful.span>
+          easing='easeInOutCubic'
+          loop
+        >
+          |
+        </TweenfulSpan>
         <span className={css(styles.text, styles.textInput)}>{inputPostCursor}</span>
       </div>
     </div>
@@ -179,28 +183,28 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
 
 const styles = StyleSheet.create({
   base: {
-    backgroundColor: "black",
-    height: "100%",
-    overflowY: "auto",
-    width: "100%",
+    backgroundColor: 'black',
+    height: '100%',
+    overflowY: 'auto',
+    width: '100%',
   },
   cursor: {
-    color: "green",
+    color: 'green',
   },
   text: {
-    fontFamily: "monospace",
-    overflowWrap: "break-word",
-    whiteSpace: "pre-wrap",
+    fontFamily: 'monospace',
+    overflowWrap: 'break-word',
+    whiteSpace: 'pre-wrap',
   },
   textInput: {
-    color: "green"
+    color: 'green',
   },
   textOutput: {
-    color: "white"
+    color: 'white',
   },
   textError: {
-    color: "red"
+    color: 'red',
   },
-})
+});
 
 export { Unixorn };

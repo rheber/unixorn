@@ -13,4 +13,4 @@ const historyReducer = (state: HistoryItem[], action: HistoryItem) => {
   return [...state, action];
 };
 
-export { historyReducer, HistoryItemType }
+export { historyReducer, HistoryItemType };
