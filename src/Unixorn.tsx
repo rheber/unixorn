@@ -1,9 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect, useReducer } from 'react';
-import { StyleSheet, css } from 'aphrodite-jss';
 import { UnixornConfiguration, UnixornKernel, UnixornCommand } from './types';
-import Tweenful, { percentage } from 'react-tweenful';
 import { defaultCommands } from './commands';
 import { historyReducer, HistoryItemType } from './reducers/history';
+import { css, keyframes } from 'glamor';
 
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [history, historyDispatch] = useReducer(historyReducer, []);
@@ -124,11 +123,9 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     }
   }, [inputPreCursor, inputPostCursor, history]);
 
-  const TweenfulSpan = Tweenful.span;
-
   return (
     <div
-      className={`${css(styles.base)} unixorn-base`}
+      className={`${styles.base} unixorn-base`}
       onKeyDown={handleKeyDown}
       ref={baseRef}
       tabIndex={1}
@@ -192,19 +189,11 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         >
           {inputPreCursor}
         </span>
-        <TweenfulSpan
-          animate={percentage({
-            '0%': { opacity: 1 },
-            '50%': { opacity: 0 },
-            '100%': { opacity: 1 },
-          })}
-          className={`${css(styles.cursor)} unixorn-cursor`}
-          duration={1500}
-          easing='easeInOutCubic'
-          loop
+        <span
+          className={`${styles.cursor} unixorn-cursor`}
         >
           |
-        </TweenfulSpan>
+        </span>
         <span
           className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
         >
@@ -215,33 +204,44 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   );
 };
 
-const styles = StyleSheet.create({
-  base: {
+const animations = {
+  blink: keyframes({
+    '0%': { opacity: 1 },
+    '50%': { opacity: 0 },
+    '100%': { opacity: 1 },
+  }),
+};
+
+const styles = {
+  base: css({
     backgroundColor: 'black',
     height: '100%',
     overflowY: 'auto',
     width: '100%',
-  },
-  cursor: {
+  }),
+  cursor: css({
+    animation: animations.blink,
+    animationIterationCount: 'infinite',
+    animationDuration: '1.5s',
     color: 'green',
-  },
-  prompt: {
+  }),
+  prompt: css({
     color: 'green',
-  },
-  text: {
+  }),
+  text: css({
     fontFamily: 'monospace',
     overflowWrap: 'break-word',
     whiteSpace: 'pre-wrap',
-  },
-  textInput: {
+  }),
+  textInput: css({
     color: 'green',
-  },
-  textOutput: {
+  }),
+  textOutput: css({
     color: 'white',
-  },
-  textError: {
+  }),
+  textError: css({
     color: 'red',
-  },
-});
+  }),
+};
 
 export { Unixorn };
