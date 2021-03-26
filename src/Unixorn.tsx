@@ -136,7 +136,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       {props.startupMessage && (
         <div>
           <span
-            className={`${css(styles.text, styles.textOutput)} unixorn-output unixorn-startup-message`}
+            className={`${css(styles.text, styles.textOutput)} unixorn-startup-message`}
           >
             {props.startupMessage}
           </span>

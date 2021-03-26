@@ -74,7 +74,7 @@ Execute `yarn test`.
 
 |Name|Type|Description|
 |-|-|-|
-|action|(kernel: UnixornKernel, params: string[]) => void|The code of the command.
+|action|(kernel: UnixornKernel, tokens: string[]) => void|The code of the command.
 |name|string|The name of the command.|
 |summary|string|A string summarising the purpose of the command.|
 |usage|string|A string demonstrating how the command is used.|

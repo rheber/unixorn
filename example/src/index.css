@@ -33,7 +33,27 @@ body {
 }
 
 .unixorn-example {
-  height: 80%
+  height: 80%;
+}
+
+#custom-example .unixorn-base {
+  background-color: #000022;
+}
+
+#custom-example .unixorn-current {
+  font-weight: 1000;
+}
+
+#custom-example .unixorn-output {
+  color: #FFFF00;
+}
+
+#custom-example .unixorn-prompt {
+  color: #FF00FF;
+}
+
+#custom-example .unixorn-startup-message {
+  font-style: italic;
 }
 
 h1 {

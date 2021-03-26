@@ -1,48 +1,41 @@
 import React from 'react'
 
-import { Unixorn, UnixornConfiguration } from 'unixorn'
+import { defaultCommands, Unixorn, UnixornConfiguration } from 'unixorn'
+import {UnixornKernel} from '../../dist/types';
+
+const customCommands = [
+  {
+    name: "wikipedia",
+    usage: "wikipedia",
+    summary: "Visit Wikipedia.",
+    action: (kernel: UnixornKernel, _tokens: string[]) => {
+      kernel.visit("en.wikipedia.org");
+    },
+  }
+];
 
 const configuration: UnixornConfiguration = {
-  commands: [
-    {
-      name: "wikipedia",
-      usage: "wikipedia",
-      summary: "Visit Wikipedia.",
-      action: (kernel, _params) => {
-        kernel.visit("en.wikipedia.org");
-      },
-    }
-  ],
+  commands: [...customCommands, ...defaultCommands ],
   startupMessage: "Welcome to my shell!",
 };
 
 const App = () => {
   return (
     <div className="app">
+      <h1>Unixorn</h1>
+
+      <p>Unixorn is an extensible terminal for webpages. Consult the <a href="https://github.com/rheber/unixorn">Github page</a> for more information.</p>
 
       <div className="example">
-        <h1>React example, default configuration</h1>
+        <p>You can use Unixorn out of the box...</p>
         <div className="unixorn-example">
           <Unixorn />
         </div>
       </div>
 
       <div className="example">
-        <h1>Non-React example, default configuration</h1>
-        <div id="default-non-react-example" className="unixorn-example">
-        </div>
-      </div>
-
-      <div className="example">
-        <h1>React example, custom configuration</h1>
-        <div className="unixorn-example">
-          <Unixorn {...configuration} />
-        </div>
-      </div>
-
-      <div className="example">
-        <h1>Non-React example, custom configuration</h1>
-        <div id="custom-non-react-example" className="unixorn-example">
+        <p>...But it's designed to be easy to customize.</p>
+        <div id="custom-example" className="unixorn-example">
         </div>
       </div>
     </div>

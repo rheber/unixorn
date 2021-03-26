@@ -7,14 +7,8 @@ import { initUnixorn } from 'unixorn'
 
 ReactDOM.render(<App />, document.getElementById('root'))
 
-const defaultNonReactExampleDomNode = document.getElementById('default-non-react-example')
-if (!defaultNonReactExampleDomNode) {
+const customExampleDomNode = document.getElementById('custom-example')
+if (!customExampleDomNode) {
   throw new Error('Missing node.')
 }
-initUnixorn(defaultNonReactExampleDomNode)
-
-const customNonReactExampleDomNode = document.getElementById('custom-non-react-example')
-if (!customNonReactExampleDomNode) {
-  throw new Error('Missing node.')
-}
-initUnixorn(customNonReactExampleDomNode, configuration)
+initUnixorn(customExampleDomNode, configuration)

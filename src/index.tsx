@@ -5,6 +5,7 @@ import {
   UnixornConfiguration as _UnixornConfiguration,
 } from './types';
 import { Unixorn } from './Unixorn';
+import {defaultCommands} from './commands';
 
 const initUnixorn = (
   element: HTMLElement,
@@ -17,6 +18,7 @@ export type UnixornCommand = _UnixornCommand;
 export type UnixornConfiguration = _UnixornConfiguration;
 
 export {
+  defaultCommands,
   initUnixorn,
   Unixorn,
 };
