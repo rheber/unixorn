@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect, useReducer } from 'react';
-import { UnixornConfiguration, UnixornKernel, UnixornCommand } from './types';
+import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding } from '.';
 import { defaultCommands } from './commands';
+import { defaultKeybindings } from './keybindings';
 import { historyReducer, HistoryItemType } from './reducers/history';
 import { css, keyframes } from 'glamor';
 
@@ -12,7 +13,12 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const prompt = props.prompt || '> ';
 
   const commands = props.commands || defaultCommands;
-  const commandMap: Map<string, UnixornCommand> = new Map(commands.map(command => [command.name, command]));
+  const commandMap: Map<string, UnixornCommand> =
+    new Map(commands.map(command => [command.name, command]));
+
+  const keybindings = props.keybindings || defaultKeybindings;
+  const keybindingMap: Map<string, UnixornKeybinding> =
+    new Map(keybindings.map(keybinding => [keybinding.key, keybinding]));
 
   const kernel: UnixornKernel = {
     moveCursorToEnd: () => {
@@ -107,15 +113,9 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
             setInputPreCursor(inputPreCursor + e.key);
           }
           if (e.ctrlKey) {
-            switch (e.key) {
-              case 'a':
-              case 'A':
-                kernel.moveCursorToStart();
-                break;
-              case 'e':
-              case 'E':
-                kernel.moveCursorToEnd();
-                break;
+            const keybinding = keybindingMap.get(e.key);
+            if (keybinding) {
+              keybinding.action(kernel);
             }
           }
         }

@@ -1,9 +1,16 @@
 import React from 'react'
 
-import { defaultCommands, Unixorn, UnixornConfiguration } from 'unixorn'
-import {UnixornKernel} from '../../dist/types';
+import {
+  defaultCommands,
+  defaultKeybindings,
+  Unixorn,
+  UnixornConfiguration,
+  UnixornCommand,
+  UnixornKernel,
+  UnixornKeybinding,
+} from 'unixorn'
 
-const customCommands = [
+const customCommands: UnixornCommand[] = [
   {
     name: "wikipedia",
     usage: "wikipedia",
@@ -14,8 +21,20 @@ const customCommands = [
   }
 ];
 
+const customKeybindings: UnixornKeybinding[] = [
+  {
+    key: 'd',
+    summary: 'Print a festive greeting.',
+    action: (kernel: UnixornKernel) => {
+      kernel.printOut("Merry New Year!");
+    },
+  }
+]
+
 const configuration: UnixornConfiguration = {
-  commands: [...customCommands, ...defaultCommands ],
+  commands: [...customCommands, ...defaultCommands],
+  keybindings: [...customKeybindings, ...defaultKeybindings],
+  prompt: ":) ",
   startupMessage: "Welcome to my shell!",
 };
 
