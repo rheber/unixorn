@@ -81,6 +81,16 @@ export interface UnixornKeybinding {
  */
 export interface UnixornKernel {
   /**
+   * Get the list of available commands.
+   */
+  commands: () => UnixornCommand[];
+
+  /**
+   * Get the list of available keybindings.
+   */
+  keybindings: () => UnixornKeybinding[];
+
+  /**
    * Move the cursor to the end of the line.
    */
   moveCursorToEnd: () => void;

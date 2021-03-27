@@ -12,6 +12,13 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const baseRef = useRef<null | HTMLDivElement>(null);
   const prompt = props.prompt || '> ';
 
+  const startupMessage = useCallback(() => {
+    if (props.startupMessage === '') {
+      return '';
+    }
+    return props.startupMessage || 'Enter `help` for basic information.';
+  }, [props.startupMessage]);
+
   const commands = props.commands || defaultCommands;
   const commandMap: Map<string, UnixornCommand> =
     new Map(commands.map(command => [command.name, command]));
@@ -21,6 +28,10 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     new Map(keybindings.map(keybinding => [keybinding.key, keybinding]));
 
   const kernel: UnixornKernel = {
+    commands: () => commands,
+
+    keybindings: () => keybindings,
+
     moveCursorToEnd: () => {
       setInputPreCursor(inputPreCursor + inputPostCursor);
       setInputPostCursor('');
@@ -136,12 +147,12 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       ref={baseRef}
       tabIndex={1}
     >
-      {props.startupMessage && (
+      {startupMessage() && (
         <div>
           <span
             className={`${css(styles.text, styles.textOutput)} unixorn-startup-message`}
           >
-            {props.startupMessage}
+            {startupMessage()}
           </span>
         </div>
       )}
