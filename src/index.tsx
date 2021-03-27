@@ -9,6 +9,11 @@ import { defaultKeybindings } from './keybindings';
  */
 export interface UnixornConfiguration {
   /**
+   * Whether the component should take focus when the page loads.
+   */
+  autoFocus?: boolean;
+
+  /**
    * List of commands to use instead of the default commands.
    */
   commands?: UnixornCommand[];

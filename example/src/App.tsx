@@ -48,7 +48,7 @@ const App = () => {
       <div className="example">
         <p>You can use Unixorn out of the box...</p>
         <div className="unixorn-example">
-          <Unixorn />
+          <Unixorn autoFocus />
         </div>
       </div>
 

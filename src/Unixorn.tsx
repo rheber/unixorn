@@ -55,6 +55,12 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   };
 
   useEffect(() => {
+    if (baseRef && baseRef.current && props.autoFocus) {
+      baseRef.current.focus();
+    }
+  }, [props.autoFocus]);
+
+  useEffect(() => {
     if (baseRef && baseRef.current) {
       baseRef.current.scrollTop = baseRef.current.scrollHeight;
     }
