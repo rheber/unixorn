@@ -218,19 +218,25 @@ const animations = {
   }),
 };
 
+const cursorStyle = css({
+  display: 'none',
+});
+
 const styles = {
   base: css({
     backgroundColor: 'black',
     height: '100%',
     overflowY: 'auto',
     width: '100%',
+    [`&:focus .${cursorStyle}`]: {
+      animation: animations.blink,
+      animationIterationCount: 'infinite',
+      animationDuration: '1.5s',
+      color: 'green',
+      display: 'inline',
+    },
   }),
-  cursor: css({
-    animation: animations.blink,
-    animationIterationCount: 'infinite',
-    animationDuration: '1.5s',
-    color: 'green',
-  }),
+  cursor: cursorStyle,
   prompt: css({
     color: 'green',
   }),
