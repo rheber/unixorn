@@ -4,6 +4,7 @@ import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
 import { historyReducer, HistoryItemType } from './reducers/history';
 import { css, keyframes } from 'glamor';
+import { version } from '../package.json';
 
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [history, historyDispatch] = useReducer(historyReducer, []);
@@ -16,7 +17,8 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     if (props.startupMessage === '') {
       return '';
     }
-    return props.startupMessage || 'Enter `help` for basic information.';
+    return props.startupMessage ||
+      `Unixorn version ${version}. Enter \`help\` for basic information.`;
   }, [props.startupMessage]);
 
   const commands = props.commands || defaultCommands;

@@ -16,13 +16,13 @@ const defaultCommands: UnixornCommand[] = [
     summary: 'Show this message.',
     action: (kernel: UnixornKernel, _tokens: string[]) => {
       kernel.printOut('Commands:');
-      kernel.printOut('\n')
+      kernel.printOut('\n');
       kernel.commands().forEach(command => {
         kernel.printOut(`${command.usage}`.padEnd(20) + command.summary);
       });
-      kernel.printOut('\n')
+      kernel.printOut('\n');
       kernel.printOut('Keybindings:');
-      kernel.printOut('\n')
+      kernel.printOut('\n');
       kernel.keybindings().forEach(keybinding => {
         kernel.printOut(`ctrl-${keybinding.key}`.padEnd(20) + keybinding.summary);
       });
