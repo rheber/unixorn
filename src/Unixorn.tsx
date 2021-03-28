@@ -237,7 +237,7 @@ const cursorStyle = css({
 
 const styles = {
   base: css({
-    backgroundColor: 'black',
+    backgroundColor: '#000000',
     height: '100%',
     overflowY: 'auto',
     width: '100%',
@@ -245,13 +245,13 @@ const styles = {
       animation: animations.blink,
       animationIterationCount: 'infinite',
       animationDuration: '1.5s',
-      color: 'green',
+      color: '#00FF00',
       display: 'inline',
     },
   }),
   cursor: cursorStyle,
   prompt: css({
-    color: 'green',
+    color: '#00FF00',
   }),
   text: css({
     fontFamily: 'monospace',
@@ -259,13 +259,13 @@ const styles = {
     whiteSpace: 'pre-wrap',
   }),
   textInput: css({
-    color: 'green',
+    color: '#00FF00',
   }),
   textOutput: css({
-    color: 'white',
+    color: '#FFFFFF',
   }),
   textError: css({
-    color: 'red',
+    color: '#FF0000',
   }),
 };
 
