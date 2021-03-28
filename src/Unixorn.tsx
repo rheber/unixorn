@@ -32,6 +32,14 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const kernel: UnixornKernel = {
     commands: () => commands,
 
+    deleteToEnd: () => {
+      setInputPostCursor('');
+    },
+
+    deleteToStart: () => {
+      setInputPreCursor('');
+    },
+
     keybindings: () => keybindings,
 
     moveCursorToEnd: () => {

@@ -15,6 +15,20 @@ const defaultKeybindings: UnixornKeybinding[] = [
       kernel.moveCursorToEnd();
     },
   },
+  {
+    key: 'k',
+    summary: 'Delete all characters after cursor.',
+    action: (kernel: UnixornKernel) => {
+      kernel.deleteToEnd();
+    },
+  },
+  {
+    key: 'u',
+    summary: 'Delete all characters before cursor.',
+    action: (kernel: UnixornKernel) => {
+      kernel.deleteToStart();
+    },
+  },
 ];
 
 export { defaultKeybindings };

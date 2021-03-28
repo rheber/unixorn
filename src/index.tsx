@@ -86,6 +86,16 @@ export interface UnixornKernel {
   commands: () => UnixornCommand[];
 
   /**
+   * Delete all characters after cursor.
+   */
+  deleteToEnd: () => void;
+
+  /**
+   * Delete all characters before cursor.
+   */
+  deleteToStart: () => void;
+
+  /**
    * Get the list of available keybindings.
    */
   keybindings: () => UnixornKeybinding[];
