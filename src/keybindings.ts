@@ -1,5 +1,9 @@
 import { UnixornKeybinding, UnixornKernel } from '.';
 
+/**
+ * Default keybindings that a new Unixorn component will
+ * be initialized with if the keybindings prop is not set.
+ */
 const defaultKeybindings: UnixornKeybinding[] = [
   {
     key: 'a',

@@ -1,5 +1,9 @@
 import { UnixornCommand, UnixornKernel } from '.';
 
+/**
+ * Default commands that a new Unixorn component will
+ * be initialized with if the commands prop is not set.
+ */
 const defaultCommands: UnixornCommand[] = [
   {
     name: 'echo',

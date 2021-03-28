@@ -2,6 +2,7 @@
   "name": "unixorn",
   "version": "1.1.0",
   "description": "Unix-like environment for the web",
+  "tags": ["react", "shell", "terminal"],
   "author": "rheber",
   "license": "MIT",
   "repository": "rheber/unixorn",
@@ -16,6 +17,7 @@
   "scripts": {
     "build": "microbundle-crl --no-compress",
     "build:inline": "microbundle-crl --external none",
+    "docs": "typedoc",
     "start": "microbundle-crl watch --no-compress",
     "test": "run-s test:unit test:lint",
     "test:lint": "eslint src/**/*.{ts,tsx}",
@@ -53,6 +55,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
+    "typedoc": "^0.20.34",
     "typescript": "^3.7.5"
   },
   "files": [

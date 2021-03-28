@@ -6,6 +6,9 @@ import { historyReducer, HistoryItemType } from './reducers/history';
 import { css, keyframes } from 'glamor';
 import { version } from '../package.json';
 
+/**
+ * The main component.
+ */
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [history, historyDispatch] = React.useReducer(historyReducer, []);
   const [inputPreCursor, setInputPreCursor] = React.useState('');

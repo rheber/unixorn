@@ -5,7 +5,7 @@ import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
 
 /**
- * The Unixorn component's props.
+ * The props of a Unixorn component.
  */
 export interface UnixornConfiguration {
   /**
@@ -59,6 +59,9 @@ export interface UnixornCommand {
   action: (kernel: UnixornKernel, tokens: string[]) => void;
 }
 
+/**
+ * A keybinding that can be triggered on the command line.
+ */
 export interface UnixornKeybinding {
   /**
    * The non-modifier key of the keybinding.
@@ -131,6 +134,11 @@ export interface UnixornKernel {
   visit: (url: string) => void;
 }
 
+/**
+ * Attach a new Unixorn component to an existing DOM node.
+ * @param element The DOM node to which the new Unixorn component should be attached.
+ * @param configuration Props to be passed to the new Unixorn component.
+ */
 const initUnixorn = (
   element: HTMLElement,
   configuration?: UnixornConfiguration,
