@@ -12,7 +12,7 @@ Unixorn aspires to be a Unix-like environment with a shell interface that:
 
 You can view a [live example](https://rheber.github.io/unixorn/) of Unixorn in action.
 
-[Full documentation](https://github.com/rheber/unixorn/blob/master/docs/index.html) is generated with typedoc.
+[Full documentation](https://htmlpreview.github.io/?https://github.com/rheber/unixorn/blob/master/docs/index.html) is generated with typedoc.
 
 ## Installation
 
