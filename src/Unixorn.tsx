@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect, useReducer } from 'react';
+import React from 'react';
 import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding } from '.';
 import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
@@ -7,13 +7,13 @@ import { css, keyframes } from 'glamor';
 import { version } from '../package.json';
 
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
-  const [history, historyDispatch] = useReducer(historyReducer, []);
-  const [inputPreCursor, setInputPreCursor] = useState('');
-  const [inputPostCursor, setInputPostCursor] = useState('');
-  const baseRef = useRef<null | HTMLDivElement>(null);
+  const [history, historyDispatch] = React.useReducer(historyReducer, []);
+  const [inputPreCursor, setInputPreCursor] = React.useState('');
+  const [inputPostCursor, setInputPostCursor] = React.useState('');
+  const baseRef = React.useRef<null | HTMLDivElement>(null);
   const prompt = props.prompt || '> ';
 
-  const startupMessage = useCallback(() => {
+  const startupMessage = React.useCallback(() => {
     if (props.startupMessage === '') {
       return '';
     }
@@ -67,19 +67,19 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     },
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (baseRef && baseRef.current && props.autoFocus) {
       baseRef.current.focus();
     }
   }, [props.autoFocus]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (baseRef && baseRef.current) {
       baseRef.current.scrollTop = baseRef.current.scrollHeight;
     }
   }, [history]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     e.preventDefault();
     switch (e.key) {
       case 'ArrowLeft':
