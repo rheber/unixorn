@@ -96,6 +96,11 @@ export interface UnixornKernel {
   deleteToStart: () => void;
 
   /**
+   * Execute a line.
+   */
+  execute: (line: string) => void;
+
+  /**
    * Get the list of available keybindings.
    */
   keybindings: () => UnixornKeybinding[];

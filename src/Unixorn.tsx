@@ -40,6 +40,22 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       setInputPreCursor('');
     },
 
+    execute: (line: string) => {
+      const tokens = line.split(/\s+/).filter(token => token !== '');
+      if (tokens.length > 0) {
+        const commandName = tokens[0];
+        const command = commandMap.get(commandName);
+        if (command) {
+          command.action(kernel, tokens);
+        } else {
+          historyDispatch({
+            type: HistoryItemType.Error,
+            content: `Unrecognized command: ${commandName}`,
+          });
+        }
+      }
+    },
+
     keybindings: () => keybindings,
 
     moveCursorToEnd: () => {
@@ -116,21 +132,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           type: HistoryItemType.Input,
           content: fullLine,
         });
-
-        const tokens = fullLine.split(/\s+/).filter(token => token !== '');
-        if (tokens.length > 0) {
-          const commandName = tokens[0];
-          const command = commandMap.get(commandName);
-          if (command) {
-            command.action(kernel, tokens);
-          } else {
-            historyDispatch({
-              type: HistoryItemType.Error,
-              content: `Unrecognized command: ${commandName}`,
-            });
-          }
-        }
-
+        kernel.execute(fullLine);
         setInputPreCursor('');
         setInputPostCursor('');
         break;
