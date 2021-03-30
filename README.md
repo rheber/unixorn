@@ -1,5 +1,7 @@
 # README
 
+[![NPM](https://nodei.co/npm/unixorn.png?compact=true)](https://nodei.co/npm/unixorn/)
+
 ## Purpose
 
 Unixorn aspires to be a Unix-like environment with a shell interface that:
@@ -11,8 +13,6 @@ Unixorn aspires to be a Unix-like environment with a shell interface that:
 * can be extended with additional commands, keybindings and styles
 
 You can view a [live example](https://rheber.github.io/unixorn/) of Unixorn in action.
-
-[Full documentation](https://htmlpreview.github.io/?https://github.com/rheber/unixorn/blob/master/docs/index.html) is generated with typedoc.
 
 ## Installation
 
@@ -47,6 +47,25 @@ const nonReactDomNode = document.getElementById('example')
 
 initUnixorn(nonReactDomNode, configuration)
 ```
+
+## APIs
+
+### Typescript Exports
+
+Consult the [docs generated with typedoc](https://htmlpreview.github.io/?https://github.com/rheber/unixorn/blob/master/docs/index.html).
+
+### CSS Classes
+
+The following classes may be targeted for styling:
+
+  * unixorn-base
+  * unixorn-current
+  * unixorn-cursor
+  * unixorn-error
+  * unixorn-input
+  * unixorn-output
+  * unixorn-prompt
+  * unixorn-startup-message
 
 ## Development
 
