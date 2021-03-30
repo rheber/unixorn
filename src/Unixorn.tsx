@@ -217,14 +217,17 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           {prompt}
         </span>
         <span
-          className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
+          className={`${styles.preContainer}`}
         >
-          {inputPreCursor}
-        </span>
-        <span
-          className={`${styles.cursor} unixorn-cursor`}
-        >
-          |
+          <span
+            className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
+          >
+            {inputPreCursor}
+          </span>
+          <span
+            className={`${styles.cursor} unixorn-cursor`}
+          >
+          </span>
         </span>
         <span
           className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
@@ -258,11 +261,17 @@ const styles = {
       animation: animations.blink,
       animationIterationCount: 'infinite',
       animationDuration: '1.5s',
-      color: '#00FF00',
+      border: '#00FF00 1px solid',
       display: 'inline',
+      height: '100%',
+      position: 'absolute',
+      right: 0,
     },
   }),
   cursor: cursorStyle,
+  preContainer: css({
+    position: 'relative',
+  }),
   prompt: css({
     color: '#00FF00',
   }),
