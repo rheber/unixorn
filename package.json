@@ -1,8 +1,12 @@
 {
   "name": "unixorn",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Unix-like environment for the web",
-  "tags": ["react", "shell", "terminal"],
+  "tags": [
+    "react",
+    "shell",
+    "terminal"
+  ],
   "author": "rheber",
   "license": "MIT",
   "repository": "rheber/unixorn",
