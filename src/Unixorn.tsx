@@ -4,7 +4,6 @@ import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
 import { historyReducer, HistoryItemType } from './reducers/history';
 import { css, keyframes } from 'glamor';
-import { version } from '../package.json';
 
 /**
  * The main component.
@@ -21,7 +20,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       return '';
     }
     return props.startupMessage ||
-      `Unixorn version ${version}. Enter \`help\` for basic information.`;
+      'Welcome to Unixorn. Enter `help` for basic information.';
   }, [props.startupMessage]);
 
   const commands = props.commands || defaultCommands;
@@ -226,8 +225,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           </span>
           <span
             className={`${styles.cursor} unixorn-cursor`}
-          >
-          </span>
+          />
         </span>
         <span
           className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
