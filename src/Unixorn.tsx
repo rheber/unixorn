@@ -4,6 +4,7 @@ import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
 import { historyReducer, HistoryItemType } from './reducers/history';
 import { css, keyframes } from 'glamor';
+import { Defaultdict } from './utilities/defaultdict';
 
 /**
  * The main component.
@@ -28,8 +29,18 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     new Map(commands.map(command => [command.name, command]));
 
   const keybindings = props.keybindings || defaultKeybindings;
-  const keybindingMap: Map<string, UnixornKeybinding> =
-    new Map(keybindings.map(keybinding => [keybinding.key, keybinding]));
+  const keybindingMap:
+    Defaultdict<Defaultdict<Defaultdict<UnixornKeybinding | null>>> = new Defaultdict(
+      () => new Defaultdict(
+        () => new Defaultdict(() => null),
+      ),
+    );
+  keybindings.forEach(binding => {
+    keybindingMap.
+      get(binding.key).
+      get(binding.ctrl.toString()).
+      set(binding.meta.toString(), binding);
+  });
 
   const kernel: UnixornKernel = {
     commands: () => commands,
@@ -140,14 +151,15 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         break;
       default:
         if (e.key.length === 1) {
-          if (!e.ctrlKey) {
+          const keybinding = keybindingMap.
+            get(e.key).
+            get(e.ctrlKey.toString()).
+            get(e.altKey.toString());
+
+          if (keybinding) {
+            keybinding.action(kernel);
+          } else {
             setInputPreCursor(inputPreCursor + e.key);
-          }
-          if (e.ctrlKey) {
-            const keybinding = keybindingMap.get(e.key);
-            if (keybinding) {
-              keybinding.action(kernel);
-            }
           }
         }
         break;

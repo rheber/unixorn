@@ -7,6 +7,8 @@ import { UnixornKeybinding, UnixornKernel } from '.';
 const defaultKeybindings: UnixornKeybinding[] = [
   {
     key: 'a',
+    ctrl: true,
+    meta: false,
     summary: 'Move cursor to start of line.',
     action: (kernel: UnixornKernel) => {
       kernel.moveCursorToStart();
@@ -14,6 +16,8 @@ const defaultKeybindings: UnixornKeybinding[] = [
   },
   {
     key: 'e',
+    ctrl: true,
+    meta: false,
     summary: 'Move cursor to end of line.',
     action: (kernel: UnixornKernel) => {
       kernel.moveCursorToEnd();
@@ -21,6 +25,8 @@ const defaultKeybindings: UnixornKeybinding[] = [
   },
   {
     key: 'k',
+    ctrl: true,
+    meta: false,
     summary: 'Delete all characters after cursor.',
     action: (kernel: UnixornKernel) => {
       kernel.deleteToEnd();
@@ -28,6 +34,8 @@ const defaultKeybindings: UnixornKeybinding[] = [
   },
   {
     key: 'u',
+    ctrl: true,
+    meta: false,
     summary: 'Delete all characters before cursor.',
     action: (kernel: UnixornKernel) => {
       kernel.deleteToStart();

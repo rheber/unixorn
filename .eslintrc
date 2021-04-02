@@ -23,6 +23,7 @@
   },
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
+    "dot-location": ["error", "object"],
     "no-case-declarations": ["off"],
     "no-unused-vars": ["off"],
     "semi": ["error", "always"],
