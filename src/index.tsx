@@ -63,6 +63,17 @@ export interface UnixornCommand {
  * A keybinding that can be triggered on the command line.
  */
 export interface UnixornKeybinding {
+   /**
+    * Whether the control key should be held.
+    */
+   ctrl: boolean;
+
+   /**
+    * Whether the meta key should be held.
+    * On a standard keyboard, the meta key is marked "alt".
+    */
+   meta: boolean;
+
   /**
    * The non-modifier key of the keybinding.
    */

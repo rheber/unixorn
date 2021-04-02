@@ -23,12 +23,32 @@ const customCommands: UnixornCommand[] = [
 
 const customKeybindings: UnixornKeybinding[] = [
   {
-    key: 'd',
-    summary: 'Print a festive greeting.',
-    action: (kernel: UnixornKernel) => {
-      kernel.printOut("Merry New Year!");
-    },
-  }
+     key: 'd',
+     ctrl: true,
+     meta: false,
+     summary: 'Print a particular trigonometric function.',
+     action: (kernel: UnixornKernel) => {
+       kernel.printOut("Sine!");
+     },
+   },
+   {
+     key: 'd',
+     ctrl: false,
+     meta: true,
+     summary: 'Print another certain trigonometric function.',
+     action: (kernel: UnixornKernel) => {
+       kernel.printOut("Cosine!");
+     },
+   },
+   {
+     key: 'd',
+     ctrl: true,
+     meta: true,
+     summary: 'Print yet another notable trigonometric function.',
+     action: (kernel: UnixornKernel) => {
+       kernel.printOut("TANGENT!");
+     },
+   },
 ]
 
 const configuration: UnixornConfiguration = {
