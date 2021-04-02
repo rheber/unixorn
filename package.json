@@ -1,6 +1,6 @@
 {
   "name": "unixorn",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Unix-like environment for the web",
   "keywords": [
     "react",
