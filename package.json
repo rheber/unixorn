@@ -18,6 +18,7 @@
   "engines": {
     "node": ">=10"
   },
+  "sideEffects": false,
   "scripts": {
     "build": "microbundle-crl --no-compress",
     "build:inline": "microbundle-crl --external none",
