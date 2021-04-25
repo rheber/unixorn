@@ -1,5 +1,9 @@
 import { UnixornKeybinding, UnixornKernel } from '.';
 
+const keybindingName = (keybinding: UnixornKeybinding): string => {
+  return `${keybinding.ctrl ? 'ctrl-' : ''}${keybinding.meta ? 'meta-' : ''}${keybinding.key}`;
+};
+
 /**
  * Default keybindings that a new Unixorn component will
  * be initialized with if the keybindings prop is not set.
@@ -43,4 +47,4 @@ const defaultKeybindings: UnixornKeybinding[] = [
   },
 ];
 
-export { defaultKeybindings };
+export { defaultKeybindings, keybindingName };

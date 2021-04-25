@@ -1,4 +1,5 @@
 import { UnixornCommand, UnixornKernel } from '.';
+import { keybindingName } from './keybindings';
 
 /**
  * Default commands that a new Unixorn component will
@@ -28,7 +29,7 @@ const defaultCommands: UnixornCommand[] = [
       kernel.printOut('Keybindings:');
       kernel.printOut('\n');
       kernel.keybindings().forEach(keybinding => {
-        kernel.printOut(`ctrl-${keybinding.key}`.padEnd(20) + keybinding.summary);
+        kernel.printOut(keybindingName(keybinding).padEnd(20) + keybinding.summary);
       });
     },
   },
