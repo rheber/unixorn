@@ -1,4 +1,4 @@
-import { UnixornCommand, UnixornKernel } from '.';
+import { UnixornCommand, UnixornKernel, UnixornKeybinding } from '.';
 import { keybindingName } from './keybindings';
 
 /**
@@ -20,6 +20,20 @@ const defaultCommands: UnixornCommand[] = [
     usage: 'help',
     summary: 'Show this message.',
     action: (kernel: UnixornKernel, _tokens: string[]) => {
+      const keybindingList = (keybindings: UnixornKeybinding[]): string[] => {
+        return keybindings.sort((a: UnixornKeybinding, b: UnixornKeybinding): number => {
+          if (a.key !== b.key) {
+            return a.key <= b.key ? -1 : 1;
+          }
+          if (a.meta !== b.meta) {
+            return b.meta ? -1 : 1;
+          }
+          return b.ctrl ? -1 : 1;
+        }).map(keybinding => {
+          return keybindingName(keybinding).padEnd(20) + keybinding.summary;
+        });
+      };
+
       kernel.printOut('Commands:');
       kernel.printOut('\n');
       kernel.commands().forEach(command => {
@@ -28,8 +42,8 @@ const defaultCommands: UnixornCommand[] = [
       kernel.printOut('\n');
       kernel.printOut('Keybindings:');
       kernel.printOut('\n');
-      kernel.keybindings().forEach(keybinding => {
-        kernel.printOut(keybindingName(keybinding).padEnd(20) + keybinding.summary);
+      keybindingList(kernel.keybindings()).forEach(message => {
+        kernel.printOut(message);
       });
     },
   },
