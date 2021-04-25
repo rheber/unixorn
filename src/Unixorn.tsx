@@ -1,5 +1,5 @@
 import React from 'react';
-import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding } from '.';
+import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding, defaultConfiguration } from '.';
 import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
 import { historyReducer, HistoryItemType } from './reducers/history';
@@ -14,14 +14,13 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [inputPreCursor, setInputPreCursor] = React.useState('');
   const [inputPostCursor, setInputPostCursor] = React.useState('');
   const baseRef = React.useRef<null | HTMLDivElement>(null);
-  const prompt = props.prompt || '> ';
+  const prompt = props.prompt || defaultConfiguration.prompt;
 
   const startupMessage = React.useCallback(() => {
     if (props.startupMessage === '') {
       return '';
     }
-    return props.startupMessage ||
-      'Welcome to Unixorn. Enter `help` for basic information.';
+    return props.startupMessage || defaultConfiguration.startupMessage;
   }, [props.startupMessage]);
 
   const commands = props.commands || defaultCommands;
@@ -301,4 +300,4 @@ const styles = {
   }),
 };
 
-export { Unixorn };
+export { Unixorn, defaultConfiguration };

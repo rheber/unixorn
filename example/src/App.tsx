@@ -1,8 +1,7 @@
 import React from 'react'
 
 import {
-  defaultCommands,
-  defaultKeybindings,
+  defaultConfiguration,
   Unixorn,
   UnixornConfiguration,
   UnixornCommand,
@@ -52,8 +51,8 @@ const customKeybindings: UnixornKeybinding[] = [
 ]
 
 const configuration: UnixornConfiguration = {
-  commands: [...customCommands, ...defaultCommands],
-  keybindings: [...customKeybindings, ...defaultKeybindings],
+  commands: [...customCommands, ...(defaultConfiguration.commands || [])],
+  keybindings: [...customKeybindings, ...(defaultConfiguration.keybindings || [])],
   prompt: ":) ",
   startupMessage: "Welcome to my shell!",
 };

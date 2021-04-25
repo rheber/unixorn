@@ -146,6 +146,18 @@ export interface UnixornKernel {
 }
 
 /**
+ * Defaults that a new Unixorn component will
+ * be initialized with if its props are not set.
+ */
+const defaultConfiguration: UnixornConfiguration = {
+  autoFocus: false,
+  commands: defaultCommands,
+  keybindings: defaultKeybindings,
+  prompt: '> ',
+  startupMessage: 'Welcome to Unixorn. Enter `help` for basic information.',
+};
+
+/**
  * Attach a new Unixorn component to an existing DOM node.
  * @param element The DOM node to which the new Unixorn component should be attached.
  * @param configuration Props to be passed to the new Unixorn component.
@@ -158,8 +170,7 @@ const initUnixorn = (
 };
 
 export {
-  defaultCommands,
-  defaultKeybindings,
+  defaultConfiguration,
   initUnixorn,
   Unixorn,
 };
