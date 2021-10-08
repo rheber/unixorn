@@ -1,5 +1,4 @@
-
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+pages/docs/
 
 # dependencies
 node_modules
