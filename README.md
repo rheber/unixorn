@@ -12,7 +12,7 @@ Unixorn aspires to be a Unix-like environment with a shell interface that:
 
 * can be extended with additional commands, keybindings and styles
 
-You can view a [live example](https://rheber.github.io/unixorn/) of Unixorn in action.
+You can view a [live example](https://rheber.github.io/unixorn/example/index.html) of Unixorn in action.
 
 ## Installation
 
@@ -52,7 +52,7 @@ initUnixorn(nonReactDomNode, configuration)
 
 ### Typescript Exports
 
-Consult the [docs generated with typedoc](https://htmlpreview.github.io/?https://github.com/rheber/unixorn/blob/master/docs/index.html).
+Consult the [docs generated with typedoc](https://rheber.github.io/unixorn/docs/index.html).
 
 ### CSS Classes
 
