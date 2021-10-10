@@ -7,6 +7,14 @@ import { keybindingName } from './keybindings';
  */
 const defaultCommands: UnixornCommand[] = [
   {
+    name: 'clear',
+    usage: 'clear',
+    summary: 'Clear screen.',
+    action: (kernel: UnixornKernel, _tokens: string[]) => {
+      kernel.clearScreen();
+    },
+  },
+  {
     name: 'echo',
     usage: 'echo [ARGS]',
     summary: 'Print arguments.',

@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useReducer, useState, useRef} from 'react
 import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding, defaultConfiguration } from './interfaces';
 import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
-import { visualHistoryReducer, VisualHistoryItemType, commandHistoryReducer } from './reducers/history';
+import { visualHistoryReducer, VisualHistoryItemType, commandHistoryReducer, VisualHistoryActionType } from './reducers/history';
 import { css, keyframes } from 'glamor';
 import { Defaultdict } from './utilities/defaultdict';
 
@@ -19,11 +19,18 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const prompt = props.prompt || defaultConfiguration.prompt;
 
   // Determine message to display on load.
-  const startupMessage = useCallback(() => {
+  useEffect(() => {
     if (props.startupMessage === '') {
-      return '';
+      return;
     }
-    return props.startupMessage || defaultConfiguration.startupMessage;
+    const msg = props.startupMessage || defaultConfiguration.startupMessage;
+    visualHistoryDispatch({
+      type: VisualHistoryActionType.PushItem,
+      item: {
+        type: VisualHistoryItemType.StartupOutput,
+        content: msg || '',
+      },
+    });
   }, [props.startupMessage]);
 
   // Construct command map to be loaded into kernel.
@@ -49,6 +56,10 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
 
   // Construct kernel.
   const kernel: UnixornKernel = {
+    clearScreen: () => {
+      visualHistoryDispatch({ type: VisualHistoryActionType.Clear });
+    },
+
     commands: () => commands,
 
     deleteToEnd: () => {
@@ -68,8 +79,11 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           command.action(kernel, tokens);
         } else {
           visualHistoryDispatch({
-            type: VisualHistoryItemType.Error,
-            content: `Unrecognized command: ${commandName}`,
+            type: VisualHistoryActionType.PushItem,
+            item: {
+              type: VisualHistoryItemType.Error,
+              content: `Unrecognized command: ${commandName}`,
+            }
           });
         }
       }
@@ -89,15 +103,21 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
 
     printErr: (text: string) => {
       visualHistoryDispatch({
-        type: VisualHistoryItemType.Error,
-        content: text,
+        type: VisualHistoryActionType.PushItem,
+        item: {
+          type: VisualHistoryItemType.Error,
+          content: text,
+        }
       });
     },
 
     printOut: (text: string) => {
       visualHistoryDispatch({
-        type: VisualHistoryItemType.Output,
-        content: text,
+        type: VisualHistoryActionType.PushItem,
+        item: {
+          type: VisualHistoryItemType.Output,
+          content: text,
+        }
       });
     },
 
@@ -178,8 +198,11 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
             postCursor: '',
         });
         visualHistoryDispatch({
-          type: VisualHistoryItemType.Input,
-          content: fullLine,
+          type: VisualHistoryActionType.PushItem,
+          item: {
+            type: VisualHistoryItemType.Input,
+            content: fullLine,
+          }
         });
         kernel.execute(fullLine);
         setInputPreCursor('');
@@ -211,15 +234,6 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       ref={baseRef}
       tabIndex={1}
     >
-      {startupMessage() && (
-        <div>
-          <span
-            className={`${css(styles.text, styles.textOutput)} unixorn-startup-message`}
-          >
-            {startupMessage()}
-          </span>
-        </div>
-      )}
       {visualHistory.map((item, idx) => {
         switch (item.type) {
           case VisualHistoryItemType.Input:
@@ -252,6 +266,16 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
               <div key={idx}>
                 <span
                   className={`${css(styles.text, styles.textError)} unixorn-error`}
+                >
+                  {item.content}
+                </span>
+              </div>
+            );
+          case VisualHistoryItemType.StartupOutput:
+            return (
+              <div key={idx}>
+                <span
+                  className={`${css(styles.text, styles.textOutput)} unixorn-startup-message`}
                 >
                   {item.content}
                 </span>

@@ -37,6 +37,15 @@ const defaultKeybindings: UnixornKeybinding[] = [
     },
   },
   {
+    key: 'l',
+    ctrl: true,
+    meta: false,
+    summary: 'Clear screen.',
+    action: (kernel: UnixornKernel) => {
+      kernel.clearScreen();
+    },
+  },
+  {
     key: 'u',
     ctrl: true,
     meta: false,

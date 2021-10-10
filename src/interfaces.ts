@@ -104,6 +104,11 @@ export interface UnixornKeybinding {
  */
 export interface UnixornKernel {
   /**
+   * Clear input and output that has been rendered to screen.
+   */
+  clearScreen: () => void;
+
+  /**
    * Get the list of available commands.
    */
   commands: () => UnixornCommand[];
