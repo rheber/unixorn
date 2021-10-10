@@ -1,16 +1,41 @@
-enum HistoryItemType {
+/**
+ * A command previously entered or
+ * in the process of being crafted.
+ */
+interface CommandHistoryItem {
+  preCursor: string;
+  postCursor: string;
+}
+
+// Put most recent command at start of history.
+// Makes sense if considering 0th item as most recent command.
+const commandHistoryReducer = (state: CommandHistoryItem[], action: CommandHistoryItem) => {
+  return [action, ...state];
+};
+
+enum VisualHistoryItemType {
   Input,
   Output,
   Error,
 }
 
-interface HistoryItem {
-  type: HistoryItemType;
+/**
+ * An item rendered to the screen.
+ * May be displayed differently depending on
+ * its type.
+ */
+interface VisualHistoryItem {
+  type: VisualHistoryItemType;
   content: string;
 }
 
-const historyReducer = (state: HistoryItem[], action: HistoryItem) => {
+// Put most recent item at end of history.
+const visualHistoryReducer = (state: VisualHistoryItem[], action: VisualHistoryItem) => {
   return [...state, action];
 };
 
-export { historyReducer, HistoryItemType };
+export {
+  commandHistoryReducer,
+  visualHistoryReducer,
+  VisualHistoryItemType,
+};

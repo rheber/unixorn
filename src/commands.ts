@@ -42,6 +42,8 @@ const defaultCommands: UnixornCommand[] = [
       kernel.printOut('\n');
       kernel.printOut('Keybindings:');
       kernel.printOut('\n');
+      kernel.printOut('down'.padEnd(20) + 'Retrieve later command in history.\n');
+      kernel.printOut('up'.padEnd(20) + 'Retrieve earlier command in history.\n');
       keybindingList(kernel.keybindings()).forEach(message => {
         kernel.printOut(message);
       });

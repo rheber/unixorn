@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useCallback, useEffect, useReducer, useState, useRef} from 'react';
 import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding, defaultConfiguration } from './interfaces';
 import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
-import { historyReducer, HistoryItemType } from './reducers/history';
+import { visualHistoryReducer, VisualHistoryItemType, commandHistoryReducer } from './reducers/history';
 import { css, keyframes } from 'glamor';
 import { Defaultdict } from './utilities/defaultdict';
 
@@ -10,23 +10,29 @@ import { Defaultdict } from './utilities/defaultdict';
  * The main component.
  */
 const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
-  const [history, historyDispatch] = React.useReducer(historyReducer, []);
-  const [inputPreCursor, setInputPreCursor] = React.useState('');
-  const [inputPostCursor, setInputPostCursor] = React.useState('');
-  const baseRef = React.useRef<null | HTMLDivElement>(null);
+  const [commandHistory, commandHistoryDispatch] = useReducer(commandHistoryReducer, []);
+  const [commandHistoryPosition, setCommandHistoryPosition] = useState(-1);
+  const [visualHistory, visualHistoryDispatch] = useReducer(visualHistoryReducer, []);
+  const [inputPreCursor, setInputPreCursor] = useState('');
+  const [inputPostCursor, setInputPostCursor] = useState('');
+  const baseRef = useRef<null | HTMLDivElement>(null);
   const prompt = props.prompt || defaultConfiguration.prompt;
 
-  const startupMessage = React.useCallback(() => {
+  // Determine message to display on load.
+  const startupMessage = useCallback(() => {
     if (props.startupMessage === '') {
       return '';
     }
     return props.startupMessage || defaultConfiguration.startupMessage;
   }, [props.startupMessage]);
 
+  // Construct command map to be loaded into kernel.
   const commands = props.commands || defaultCommands;
   const commandMap: Map<string, UnixornCommand> =
     new Map(commands.map(command => [command.name, command]));
 
+  // Construct keybinding map to be loaded into kernel.
+  // Looks a bit odd due to the nesting required for modfier keys.
   const keybindings = props.keybindings || defaultKeybindings;
   const keybindingMap:
     Defaultdict<Defaultdict<Defaultdict<UnixornKeybinding | null>>> = new Defaultdict(
@@ -41,6 +47,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       set(binding.meta.toString(), binding);
   });
 
+  // Construct kernel.
   const kernel: UnixornKernel = {
     commands: () => commands,
 
@@ -60,8 +67,8 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         if (command) {
           command.action(kernel, tokens);
         } else {
-          historyDispatch({
-            type: HistoryItemType.Error,
+          visualHistoryDispatch({
+            type: VisualHistoryItemType.Error,
             content: `Unrecognized command: ${commandName}`,
           });
         }
@@ -81,15 +88,15 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     },
 
     printErr: (text: string) => {
-      historyDispatch({
-        type: HistoryItemType.Error,
+      visualHistoryDispatch({
+        type: VisualHistoryItemType.Error,
         content: text,
       });
     },
 
     printOut: (text: string) => {
-      historyDispatch({
-        type: HistoryItemType.Output,
+      visualHistoryDispatch({
+        type: VisualHistoryItemType.Output,
         content: text,
       });
     },
@@ -103,21 +110,38 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     },
   };
 
-  React.useEffect(() => {
+  // Potentially take focus.
+  useEffect(() => {
     if (baseRef && baseRef.current && props.autoFocus) {
       baseRef.current.focus();
     }
   }, [props.autoFocus]);
 
-  React.useEffect(() => {
+  // Scroll to bottom when visual history updates.
+  useEffect(() => {
     if (baseRef && baseRef.current) {
       baseRef.current.scrollTop = baseRef.current.scrollHeight;
     }
-  }, [history]);
+  }, [visualHistory]);
 
-  const handleKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+  // Handler for key presses.
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
     e.preventDefault();
     switch (e.key) {
+      case 'ArrowDown':
+        if (commandHistoryPosition > -1) {
+          const newPosition = commandHistoryPosition - 1;
+          if (newPosition === -1) {
+            setInputPreCursor('');
+            setInputPostCursor('');
+          } else {
+            const newCommand = commandHistory[newPosition];
+            setInputPreCursor(newCommand.preCursor);
+            setInputPostCursor(newCommand.postCursor);
+          }
+          setCommandHistoryPosition(newPosition);
+        }
+        break;
       case 'ArrowLeft':
         if (inputPreCursor.length > 0) {
           const lastChar = inputPreCursor.slice(-1);
@@ -132,6 +156,15 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           setInputPreCursor(inputPreCursor + firstChar);
         }
         break;
+      case 'ArrowUp':
+        if (commandHistoryPosition < commandHistory.length - 1) {
+          const newPosition = commandHistoryPosition + 1;
+          const newCommand = commandHistory[newPosition];
+          setInputPreCursor(newCommand.preCursor);
+          setInputPostCursor(newCommand.postCursor);
+          setCommandHistoryPosition(newPosition);
+        }
+        break;
       case 'Backspace':
         setInputPreCursor(inputPreCursor.slice(0, -1));
         break;
@@ -140,8 +173,12 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         break;
       case 'Enter':
         const fullLine = inputPreCursor + inputPostCursor;
-        historyDispatch({
-          type: HistoryItemType.Input,
+        commandHistoryDispatch({
+            preCursor: fullLine,
+            postCursor: '',
+        });
+        visualHistoryDispatch({
+          type: VisualHistoryItemType.Input,
           content: fullLine,
         });
         kernel.execute(fullLine);
@@ -149,6 +186,8 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         setInputPostCursor('');
         break;
       default:
+        // For single keys, if modifiers are held then
+        // consult the keybindings, else add it to the input.
         if (e.key.length === 1) {
           const keybinding = keybindingMap.
             get(e.key).
@@ -163,7 +202,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         }
         break;
     }
-  }, [inputPreCursor, inputPostCursor, history]);
+  }, [inputPreCursor, inputPostCursor, visualHistory]);
 
   return (
     <div
@@ -181,9 +220,9 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           </span>
         </div>
       )}
-      {history.map((item, idx) => {
+      {visualHistory.map((item, idx) => {
         switch (item.type) {
-          case HistoryItemType.Input:
+          case VisualHistoryItemType.Input:
             return (
               <div key={idx}>
                 <span
@@ -198,7 +237,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
                 </span>
               </div>
             );
-          case HistoryItemType.Output:
+          case VisualHistoryItemType.Output:
             return (
               <div key={idx}>
                 <span
@@ -208,7 +247,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
                 </span>
               </div>
             );
-          case HistoryItemType.Error:
+          case VisualHistoryItemType.Error:
             return (
               <div key={idx}>
                 <span
