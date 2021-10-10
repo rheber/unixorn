@@ -1,4 +1,4 @@
-import { UnixornKeybinding, UnixornKernel } from '.';
+import { UnixornKeybinding, UnixornKernel } from './interfaces';
 
 const keybindingName = (keybinding: UnixornKeybinding): string => {
   return `${keybinding.ctrl ? 'ctrl-' : ''}${keybinding.meta ? 'meta-' : ''}${keybinding.key}`;

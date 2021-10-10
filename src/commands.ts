@@ -1,4 +1,4 @@
-import { UnixornCommand, UnixornKernel, UnixornKeybinding } from '.';
+import { UnixornCommand, UnixornKernel, UnixornKeybinding } from './interfaces';
 import { keybindingName } from './keybindings';
 
 /**

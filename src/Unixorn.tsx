@@ -1,5 +1,5 @@
 import React from 'react';
-import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding, defaultConfiguration } from '.';
+import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding, defaultConfiguration } from './interfaces';
 import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
 import { historyReducer, HistoryItemType } from './reducers/history';
