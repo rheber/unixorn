@@ -70,13 +70,12 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       setInputPreCursor('');
     },
 
-    execute: (line: string) => {
-      const tokens = line.split(/\s+/).filter(token => token !== '');
-      if (tokens.length > 0) {
-        const commandName = tokens[0];
+    execute: (stmt: string[]) => {
+      if (stmt.length > 0) {
+        const commandName = stmt[0];
         const command = commandMap.get(commandName);
         if (command) {
-          command.action(kernel, tokens);
+          command.action(kernel, stmt);
         } else {
           visualHistoryDispatch({
             type: VisualHistoryActionType.PushItem,
@@ -101,6 +100,10 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       setInputPreCursor('');
     },
 
+    parse: (tokens: string[]) => {
+      return [tokens];
+    },
+
     printErr: (text: string) => {
       visualHistoryDispatch({
         type: VisualHistoryActionType.PushItem,
@@ -119,6 +122,10 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           content: text,
         }
       });
+    },
+
+    tokenize: (programText: string) => {
+      return programText.split(/\s+/).filter(token => token !== '');
     },
 
     visit: (url: string) => {
@@ -204,7 +211,9 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
             content: fullLine,
           }
         });
-        kernel.execute(fullLine);
+        const tokens = kernel.tokenize(fullLine);
+        const stmts = kernel.parse(tokens);
+        stmts.forEach(stmt => kernel.execute(stmt));
         setInputPreCursor('');
         setInputPostCursor('');
         break;

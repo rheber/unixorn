@@ -124,9 +124,9 @@ export interface UnixornKernel {
   deleteToStart: () => void;
 
   /**
-   * Execute a line.
+   * Execute a statement.
    */
-  execute: (line: string) => void;
+  execute: (stmt: string[]) => void;
 
   /**
    * Get the list of available keybindings.
@@ -144,6 +144,12 @@ export interface UnixornKernel {
   moveCursorToStart: () => void;
 
   /**
+   * Split a list of tokens into a
+   * list of statements.
+   */
+  parse: (tokens: string[]) => string[][];
+
+  /**
    * Print text to stderr.
    */
   printErr: (text: string) => void;
@@ -152,6 +158,12 @@ export interface UnixornKernel {
    * Print text to stdout.
    */
   printOut: (text: string) => void;
+
+  /**
+   * Split the text of a program into a
+   * list of tokens.
+   */
+  tokenize: (programText: string) => string[];
 
   /**
    * Visit a URL.
