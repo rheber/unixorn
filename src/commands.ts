@@ -47,6 +47,7 @@ const defaultCommands: UnixornCommand[] = [
       kernel.commands().forEach(command => {
         kernel.printOut(`${command.usage}`.padEnd(20) + command.summary);
       });
+
       kernel.printOut('\n');
       kernel.printOut('Keybindings:');
       kernel.printOut('\n');
@@ -55,6 +56,11 @@ const defaultCommands: UnixornCommand[] = [
       keybindingList(kernel.keybindings()).forEach(message => {
         kernel.printOut(message);
       });
+
+      kernel.printOut('\n');
+      kernel.printOut('Syntax:');
+      kernel.printOut('\n');
+      kernel.printOut('a;b'.padEnd(20) + 'Execute a, then execute b.\n');
     },
   },
   {

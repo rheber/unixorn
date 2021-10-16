@@ -101,7 +101,23 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     },
 
     parse: (tokens: string[]) => {
-      return [tokens];
+      const stmts = [];
+      let i = 0;
+      const tokenAmt = tokens.length;
+      while (i < tokenAmt) {
+        if (tokens[i] === ';') {
+          i++;
+        } else {
+          const start = i;
+          i++;
+          while (i < tokenAmt && tokens[i] !== ';') {
+            i++;
+          }
+          const end = i;
+          stmts.push(tokens.slice(start, end));
+        }
+      }
+      return stmts;
     },
 
     printErr: (text: string) => {
@@ -125,7 +141,26 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     },
 
     tokenize: (programText: string) => {
-      return programText.split(/\s+/).filter(token => token !== '');
+      const tokens = [];
+      let i = 0;
+      const textSize = programText.length;
+      while (i < textSize) {
+        if (programText[i].match(/\s/)) {
+          i++;
+        } else if (programText[i] === ';') {
+          tokens.push(';');
+          i++;
+        } else {
+          const start = i;
+          i++;
+          while (i < textSize && !programText[i].match(/[;\s]/)) {
+            i++;
+          }
+          const end = i;
+          tokens.push(programText.slice(start, end));
+        }
+      }
+      return tokens;
     },
 
     visit: (url: string) => {
