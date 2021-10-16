@@ -2714,6 +2714,9 @@ img {
 			<a href="unixornkernel.html" class="tsd-kind-icon">Unixorn<wbr>Kernel</a>
 			<ul>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="unixornkernel.html#clearscreen" class="tsd-kind-icon">clear<wbr>Screen</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
 					<a href="unixornkernel.html#commands" class="tsd-kind-icon">commands</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -2735,10 +2738,16 @@ img {
 					<a href="unixornkernel.html#movecursortostart" class="tsd-kind-icon">move<wbr>Cursor<wbr>ToStart</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="unixornkernel.html#parse" class="tsd-kind-icon">parse</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
 					<a href="unixornkernel.html#printerr" class="tsd-kind-icon">print<wbr>Err</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
 					<a href="unixornkernel.html#printout" class="tsd-kind-icon">print<wbr>Out</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="unixornkernel.html#tokenize" class="tsd-kind-icon">tokenize</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
 					<a href="unixornkernel.html#visit" class="tsd-kind-icon">visit</a>
@@ -2783,6 +2792,7 @@ img {
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#clearscreen" class="tsd-kind-icon">clear<wbr>Screen</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#commands" class="tsd-kind-icon">commands</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#deletetoend" class="tsd-kind-icon">delete<wbr>ToEnd</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#deletetostart" class="tsd-kind-icon">delete<wbr>ToStart</a></li>
@@ -2790,8 +2800,10 @@ img {
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#keybindings" class="tsd-kind-icon">keybindings</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#movecursortoend" class="tsd-kind-icon">move<wbr>Cursor<wbr>ToEnd</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#movecursortostart" class="tsd-kind-icon">move<wbr>Cursor<wbr>ToStart</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#parse" class="tsd-kind-icon">parse</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#printerr" class="tsd-kind-icon">print<wbr>Err</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#printout" class="tsd-kind-icon">print<wbr>Out</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#tokenize" class="tsd-kind-icon">tokenize</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="unixornkernel.html#visit" class="tsd-kind-icon">visit</a></li>
 						</ul>
 					</section>
@@ -2801,12 +2813,42 @@ img {
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="clearscreen" class="tsd-anchor"></a>
+				<h3>clear<wbr>Screen</h3>
+				<div class="tsd-signature tsd-kind-icon">clear<wbr>Screen<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L109">interfaces.ts:109</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Clear input and output that has been rendered to screen.</p>
+					</div>
+				</div>
+				<div class="tsd-type-declaration">
+					<h4>Type declaration</h4>
+					<ul class="tsd-parameters">
+						<li class="tsd-parameter-signature">
+							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+							</ul>
+							<ul class="tsd-descriptions">
+								<li class="tsd-description">
+									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 				<a name="commands" class="tsd-anchor"></a>
 				<h3>commands</h3>
 				<div class="tsd-signature tsd-kind-icon">commands<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="unixorncommand.html" class="tsd-signature-type" data-tsd-kind="Interface">UnixornCommand</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L100">index.tsx:100</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L114">interfaces.ts:114</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2836,7 +2878,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">delete<wbr>ToEnd<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L105">index.tsx:105</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L119">interfaces.ts:119</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2866,7 +2908,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">delete<wbr>ToStart<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L110">index.tsx:110</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L124">interfaces.ts:124</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2893,15 +2935,15 @@ img {
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 				<a name="execute" class="tsd-anchor"></a>
 				<h3>execute</h3>
-				<div class="tsd-signature tsd-kind-icon">execute<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>line<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+				<div class="tsd-signature tsd-kind-icon">execute<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>stmt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L115">index.tsx:115</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L129">interfaces.ts:129</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Execute a line.</p>
+						<p>Execute a statement.</p>
 					</div>
 				</div>
 				<div class="tsd-type-declaration">
@@ -2909,14 +2951,14 @@ img {
 					<ul class="tsd-parameters">
 						<li class="tsd-parameter-signature">
 							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>line<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>stmt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 							</ul>
 							<ul class="tsd-descriptions">
 								<li class="tsd-description">
 									<h4 class="tsd-parameters-title">Parameters</h4>
 									<ul class="tsd-parameters">
 										<li>
-											<h5>line: <span class="tsd-signature-type">string</span></h5>
+											<h5>stmt: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 										</li>
 									</ul>
 									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2932,7 +2974,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">keybindings<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="unixornkeybinding.html" class="tsd-signature-type" data-tsd-kind="Interface">UnixornKeybinding</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L120">index.tsx:120</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L134">interfaces.ts:134</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2962,7 +3004,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">move<wbr>Cursor<wbr>ToEnd<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L125">index.tsx:125</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L139">interfaces.ts:139</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2992,7 +3034,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">move<wbr>Cursor<wbr>ToStart<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L130">index.tsx:130</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L144">interfaces.ts:144</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3017,12 +3059,49 @@ img {
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="parse" class="tsd-anchor"></a>
+				<h3>parse</h3>
+				<div class="tsd-signature tsd-kind-icon">parse<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>tokens<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L150">interfaces.ts:150</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Split a list of tokens into a
+						list of statements.</p>
+					</div>
+				</div>
+				<div class="tsd-type-declaration">
+					<h4>Type declaration</h4>
+					<ul class="tsd-parameters">
+						<li class="tsd-parameter-signature">
+							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>tokens<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></li>
+							</ul>
+							<ul class="tsd-descriptions">
+								<li class="tsd-description">
+									<h4 class="tsd-parameters-title">Parameters</h4>
+									<ul class="tsd-parameters">
+										<li>
+											<h5>tokens: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+										</li>
+									</ul>
+									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h4>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 				<a name="printerr" class="tsd-anchor"></a>
 				<h3>print<wbr>Err</h3>
 				<div class="tsd-signature tsd-kind-icon">print<wbr>Err<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L135">index.tsx:135</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L155">interfaces.ts:155</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3058,7 +3137,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">print<wbr>Out<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>text<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L140">index.tsx:140</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L160">interfaces.ts:160</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3089,12 +3168,49 @@ img {
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="tokenize" class="tsd-anchor"></a>
+				<h3>tokenize</h3>
+				<div class="tsd-signature tsd-kind-icon">tokenize<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>programText<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L166">interfaces.ts:166</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Split the text of a program into a
+						list of tokens.</p>
+					</div>
+				</div>
+				<div class="tsd-type-declaration">
+					<h4>Type declaration</h4>
+					<ul class="tsd-parameters">
+						<li class="tsd-parameter-signature">
+							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>programText<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+							</ul>
+							<ul class="tsd-descriptions">
+								<li class="tsd-description">
+									<h4 class="tsd-parameters-title">Parameters</h4>
+									<ul class="tsd-parameters">
+										<li>
+											<h5>programText: <span class="tsd-signature-type">string</span></h5>
+										</li>
+									</ul>
+									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 				<a name="visit" class="tsd-anchor"></a>
 				<h3>visit</h3>
 				<div class="tsd-signature tsd-kind-icon">visit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/3569775/src/index.tsx#L145">index.tsx:145</a></li>
+						<li>Defined in <a href="https://github.com/rheber/unixorn/blob/324e1ef/src/interfaces.ts#L171">interfaces.ts:171</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
