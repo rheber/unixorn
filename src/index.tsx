@@ -7,7 +7,7 @@ import {
   UnixornKernel,
   UnixornKeybinding,
   defaultConfiguration,
-} from "./interfaces";
+} from './interfaces';
 
 /**
  * Attach a new Unixorn component to an existing DOM node.

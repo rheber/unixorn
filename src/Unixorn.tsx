@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useReducer, useState, useRef} from 'react';
+import React, { useCallback, useEffect, useReducer, useState, useRef } from 'react';
 import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding, defaultConfiguration } from './interfaces';
 import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
@@ -82,7 +82,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
             item: {
               type: VisualHistoryItemType.Error,
               content: `Unrecognized command: ${commandName}`,
-            }
+            },
           });
         }
       }
@@ -126,7 +126,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         item: {
           type: VisualHistoryItemType.Error,
           content: text,
-        }
+        },
       });
     },
 
@@ -136,7 +136,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         item: {
           type: VisualHistoryItemType.Output,
           content: text,
-        }
+        },
       });
     },
 
@@ -236,15 +236,15 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       case 'Enter':
         const fullLine = inputPreCursor + inputPostCursor;
         commandHistoryDispatch({
-            preCursor: fullLine,
-            postCursor: '',
+          preCursor: fullLine,
+          postCursor: '',
         });
         visualHistoryDispatch({
           type: VisualHistoryActionType.PushItem,
           item: {
             type: VisualHistoryItemType.Input,
             content: fullLine,
-          }
+          },
         });
         const tokens = kernel.tokenize(fullLine);
         const stmts = kernel.parse(tokens);
