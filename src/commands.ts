@@ -28,6 +28,8 @@ const defaultCommands: UnixornCommand[] = [
     usage: 'help',
     summary: 'Show this message.',
     action: (kernel: UnixornKernel, _tokens: string[]) => {
+      const padLength = 24;
+
       const keybindingList = (keybindings: UnixornKeybinding[]): string[] => {
         return keybindings.sort((a: UnixornKeybinding, b: UnixornKeybinding): number => {
           if (a.key !== b.key) {
@@ -38,21 +40,21 @@ const defaultCommands: UnixornCommand[] = [
           }
           return b.ctrl ? -1 : 1;
         }).map(keybinding => {
-          return keybindingName(keybinding).padEnd(20) + keybinding.summary;
+          return keybindingName(keybinding).padEnd(padLength) + keybinding.summary;
         });
       };
 
       kernel.printOut('Commands:');
       kernel.printOut('\n');
       kernel.commands().forEach(command => {
-        kernel.printOut(`${command.usage}`.padEnd(20) + command.summary);
+        kernel.printOut(`${command.usage}`.padEnd(padLength) + command.summary);
       });
 
       kernel.printOut('\n');
       kernel.printOut('Keybindings:');
       kernel.printOut('\n');
-      kernel.printOut('down'.padEnd(20) + 'Retrieve later command in history.\n');
-      kernel.printOut('up'.padEnd(20) + 'Retrieve earlier command in history.\n');
+      kernel.printOut('down'.padEnd(padLength) + 'Retrieve later command in history.\n');
+      kernel.printOut('up'.padEnd(padLength) + 'Retrieve earlier command in history.\n');
       keybindingList(kernel.keybindings()).forEach(message => {
         kernel.printOut(message);
       });
@@ -60,7 +62,24 @@ const defaultCommands: UnixornCommand[] = [
       kernel.printOut('\n');
       kernel.printOut('Syntax:');
       kernel.printOut('\n');
-      kernel.printOut('a;b'.padEnd(20) + 'Execute a, then execute b.\n');
+      kernel.printOut('a;b'.padEnd(padLength) + 'Execute a, then execute b.\n');
+    },
+  },
+  {
+    name: 'type',
+    usage: 'type NAME [NAME ...]',
+    summary: 'Indicate how each name would be interpreted as a command.',
+    action: (kernel: UnixornKernel, tokens: string[]) => {
+      const builtins = kernel.commands();
+      for (let i = 1; i < tokens.length; i++) {
+        const name = tokens[i];
+        const builtin = builtins.find(c => c.name === name);
+        if (builtin) {
+          kernel.printOut(`${name} is a shell builtin`);
+        } else {
+          kernel.printOut(`${name} is not a known command`);
+        }
+      }
     },
   },
   {
