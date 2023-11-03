@@ -238,6 +238,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         setInputPostCursor(inputPostCursor.substr(1));
         break;
       case 'Enter':
+        console.log('Enter');
         const fullLine = inputPreCursor + inputPostCursor;
         commandHistoryDispatch({
           preCursor: fullLine,
@@ -344,7 +345,11 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           <span
             className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
           >
-            {inputPreCursor}
+            <input
+              className={`${css(styles.text, styles.textInputField, {width: inputPreCursor.length + 'ch'})} unixorn-input unixorn-current`}
+              value={inputPreCursor}
+              onChange={e => setInputPreCursor(e.target.value)}
+              />
           </span>
           <span
             className={`${styles.cursor} unixorn-cursor`}
@@ -403,6 +408,23 @@ const styles = {
   }),
   textInput: css({
     color: '#00FF00',
+    [`& input:focus + .${cursorStyle}`]: {
+      animation: animations.blink,
+      animationIterationCount: 'infinite',
+      animationDuration: '1.5s',
+      border: '#00FF00 1px solid',
+      display: 'inline',
+      height: '100%',
+      position: 'absolute',
+      right: 0,
+    },
+  }),
+  textInputField: css({
+    color: 'inherit',
+    backgroundColor: 'transparent',
+    border: 'none',
+    outline: 'none',
+    font: 'inherit',
   }),
   textOutput: css({
     color: '#FFFFFF',
