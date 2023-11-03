@@ -29,6 +29,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
       item: {
         type: VisualHistoryItemType.StartupOutput,
         content: msg || '',
+        prompt: props.prompt || defaultConfiguration.prompt,
       },
     });
   }, [props.startupMessage]);
@@ -82,6 +83,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
             item: {
               type: VisualHistoryItemType.Error,
               content: `Unrecognized command: ${commandName}`,
+              prompt: props.prompt || defaultConfiguration.prompt,
             },
           });
         }
@@ -126,6 +128,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         item: {
           type: VisualHistoryItemType.Error,
           content: text,
+          prompt: props.prompt || defaultConfiguration.prompt,
         },
       });
     },
@@ -136,6 +139,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         item: {
           type: VisualHistoryItemType.Output,
           content: text,
+          prompt: props.prompt || defaultConfiguration.prompt,
         },
       });
     },
@@ -244,6 +248,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           item: {
             type: VisualHistoryItemType.Input,
             content: fullLine,
+            prompt: props.prompt || defaultConfiguration.prompt,
           },
         });
         const tokens = kernel.tokenize(fullLine);
@@ -286,7 +291,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
                 <span
                   className={`${css(styles.text, styles.prompt)} unixorn-prompt`}
                 >
-                  {prompt}
+                  {item.prompt}
                 </span>
                 <span
                   className={`${css(styles.text, styles.textInput)} unixorn-input`}
