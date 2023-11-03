@@ -78,7 +78,7 @@ const App = () => {
         <p>...But it's designed to be easy to customize.</p>
         <div id="custom-example" className="unixorn-example">
         </div>
-      bi</div>
+      </div>
     </div>
   );
 }
