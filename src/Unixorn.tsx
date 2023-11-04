@@ -238,7 +238,6 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         setInputPostCursor(inputPostCursor.substr(1));
         break;
       case 'Enter':
-        console.log('Enter');
         const fullLine = inputPreCursor + inputPostCursor;
         commandHistoryDispatch({
           preCursor: fullLine,
@@ -349,7 +348,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
               className={`${css(styles.text, styles.textInputField, {width: inputPreCursor.length + 'ch'})} unixorn-input unixorn-current`}
               value={inputPreCursor}
               onChange={e => setInputPreCursor(e.target.value)}
-              />
+            />
           </span>
           <span
             className={`${styles.cursor} unixorn-cursor`}

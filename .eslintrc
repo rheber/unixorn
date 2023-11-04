@@ -26,6 +26,7 @@
     "dot-location": ["error", "object"],
     "no-case-declarations": ["off"],
     "no-unused-vars": ["off"],
+    "object-curly-spacing": 0,
     "semi": ["error", "always"],
     "space-before-function-paren": 0,
     "react/prop-types": 0,
