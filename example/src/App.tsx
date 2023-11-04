@@ -58,7 +58,6 @@ const configuration: UnixornConfiguration = {
 };
 
 const App = () => {
-  const [config, setConfig] = React.useState<UnixornConfiguration>(defaultConfiguration);
   return (
     <div className="app">
       <h1>Unixorn</h1>
@@ -68,12 +67,10 @@ const App = () => {
       <div className="example">
         <p>You can use Unixorn out of the box...</p>
         <div className="unixorn-example">
-          <Unixorn {...config} />
+          <Unixorn autoFocus />
         </div>
       </div>
 
-      <button onClick={() => setConfig({...config, prompt: ":("})}>Make above prompt sad</button>
-        
       <div className="example">
         <p>...But it's designed to be easy to customize.</p>
         <div id="custom-example" className="unixorn-example">
