@@ -38,6 +38,7 @@ enum VisualHistoryItemType {
 interface VisualHistoryItem {
   type: VisualHistoryItemType;
   content: string;
+  prompt: string | undefined;
 }
 
 // Put most recent item at end of history.
