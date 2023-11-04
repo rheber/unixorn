@@ -69,6 +69,8 @@ The following classes may be targeted for styling:
 
 ## Development
 
+If you wish to submit a pull request, you should probably check the [contributing guide](https://github.com/rheber/unixorn/blob/master/CONTRIBUTING.md) first.
+
 ### To install dependencies
 
 Execute `yarn install`.
