@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState, useRef, useMemo } from 'react';
+import React, { useCallback, useEffect, useReducer, useState, useRef, useMemo, useLayoutEffect } from 'react';
 import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding, defaultConfiguration } from './interfaces';
 import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
@@ -18,6 +18,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [inputValue, setInputValue] = useState('');
   const inputRender = useMemo(() => { return inputValue; }, [inputValue]);
   const inputRef = useRef<null | HTMLInputElement>(null);
+  const cursorPos = useRef<null | number>(null);
 
   // Determine message to display on load.
   useEffect(() => {
@@ -194,8 +195,15 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     }
   }, [visualHistory]);
 
+  useLayoutEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.selectionStart = cursorPos.current;
+      inputRef.current.selectionEnd = cursorPos.current;
+    }
+  });
+
   // Handler for key presses.
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     switch (e.key) {
       case 'ArrowDown':
@@ -214,11 +222,13 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         const leftCaret: any = inputRef.current?.selectionStart;
         if (leftCaret !== 0) {
           inputRef.current?.setSelectionRange(leftCaret - 1, leftCaret - 1);
+          cursorPos.current = inputRef.current?.selectionStart || 0;
         }
         break;
       case 'ArrowRight':
         const rightCaret: any = inputRef.current?.selectionStart;
         inputRef.current?.setSelectionRange(rightCaret + 1, rightCaret + 1);
+        cursorPos.current = inputRef.current?.selectionStart || 0;
         break;
       case 'ArrowUp':
         if (commandHistoryPosition < commandHistory.length - 1) {
@@ -233,6 +243,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         const backspaceValue = inputValue.slice(0, backspaceCaret - 1) + inputValue.slice(backspaceCaret);
         inputRef.current?.setSelectionRange(backspaceCaret + 1, backspaceCaret + 1);
         if (inputRef && inputRef.current) {
+          cursorPos.current = (inputRef.current?.selectionStart || 0) - (inputValue.length === inputRef.current?.selectionStart ? 0 : 2);
           inputRef.current.value = backspaceValue;
         }
         setInputValue(backspaceValue);
@@ -241,6 +252,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         const deleteCaret: any = inputRef.current?.selectionStart;
         const deleteValue = inputValue.slice(0, deleteCaret) + inputValue.slice(deleteCaret + 1);
         if (inputRef && inputRef.current) {
+          cursorPos.current = inputRef.current?.selectionStart || 0;
           inputRef.current.value = deleteValue;
         }
         setInputValue(deleteValue);
@@ -278,6 +290,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
             const keyValue = inputValue.slice(0, inputCaret) + e.key + inputValue.slice(inputCaret);
             inputRef.current?.setSelectionRange(inputCaret + 1, inputCaret + 1);
             setInputValue(keyValue);
+            cursorPos.current = (inputRef.current?.selectionStart || 0) + (inputValue.length === inputRef.current?.selectionStart ? 1 : 0);
           }
         }
         break;
@@ -357,6 +370,7 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           >
             <input
               className={`${css(styles.text, styles.textInputField, {width: inputValue.length + 'ch'})} unixorn-input unixorn-current`}
+              onChange={() => {}}
               onKeyDown={handleKeyDown}
               value={inputRender}
               ref={inputRef}
