@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useReducer, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useReducer, useState, useRef, useMemo } from 'react';
 import { UnixornConfiguration, UnixornKernel, UnixornCommand, UnixornKeybinding, defaultConfiguration } from './interfaces';
 import { defaultCommands } from './commands';
 import { defaultKeybindings } from './keybindings';
 import { visualHistoryReducer, VisualHistoryItemType, commandHistoryReducer, VisualHistoryActionType } from './reducers/history';
-import { css, keyframes } from 'glamor';
+import { css } from 'glamor';
 import { Defaultdict } from './utilities/defaultdict';
 
 /**
@@ -13,10 +13,11 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
   const [commandHistory, commandHistoryDispatch] = useReducer(commandHistoryReducer, []);
   const [commandHistoryPosition, setCommandHistoryPosition] = useState(-1);
   const [visualHistory, visualHistoryDispatch] = useReducer(visualHistoryReducer, []);
-  const [inputPreCursor, setInputPreCursor] = useState('');
-  const [inputPostCursor, setInputPostCursor] = useState('');
   const baseRef = useRef<null | HTMLDivElement>(null);
   const prompt = props.prompt || defaultConfiguration.prompt;
+  const [inputValue, setInputValue] = useState('');
+  const inputRender = useMemo(() => { return inputValue; }, [inputValue]);
+  const inputRef = useRef<null | HTMLInputElement>(null);
 
   // Determine message to display on load.
   useEffect(() => {
@@ -64,11 +65,14 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     commands: () => commands,
 
     deleteToEnd: () => {
-      setInputPostCursor('');
+      const caret: any = inputRef.current?.selectionStart;
+      setInputValue(inputValue.slice(0, caret));
     },
 
     deleteToStart: () => {
-      setInputPreCursor('');
+      const caret: any = inputRef.current?.selectionStart;
+      setInputValue(inputValue.slice(caret, inputValue.length));
+      inputRef.current?.setSelectionRange(0, 0);
     },
 
     execute: (stmt: string[]) => {
@@ -93,13 +97,12 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
     keybindings: () => keybindings,
 
     moveCursorToEnd: () => {
-      setInputPreCursor(inputPreCursor + inputPostCursor);
-      setInputPostCursor('');
+      const inputLength = inputValue.length;
+      inputRef.current?.setSelectionRange(inputLength, inputLength);
     },
 
     moveCursorToStart: () => {
-      setInputPostCursor(inputPreCursor + inputPostCursor);
-      setInputPreCursor('');
+      inputRef.current?.setSelectionRange(0, 0);
     },
 
     parse: (tokens: string[]) => {
@@ -178,8 +181,9 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
 
   // Potentially take focus.
   useEffect(() => {
-    if (baseRef && baseRef.current && props.autoFocus) {
-      baseRef.current.focus();
+    if (inputRef && inputRef.current && props.autoFocus) {
+      inputRef.current.click();
+      inputRef.current.focus();
     }
   }, [props.autoFocus]);
 
@@ -198,64 +202,65 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
         if (commandHistoryPosition > -1) {
           const newPosition = commandHistoryPosition - 1;
           if (newPosition === -1) {
-            setInputPreCursor('');
-            setInputPostCursor('');
+            setInputValue('');
           } else {
             const newCommand = commandHistory[newPosition];
-            setInputPreCursor(newCommand.preCursor);
-            setInputPostCursor(newCommand.postCursor);
+            setInputValue(newCommand.input);
           }
           setCommandHistoryPosition(newPosition);
         }
         break;
       case 'ArrowLeft':
-        if (inputPreCursor.length > 0) {
-          const lastChar = inputPreCursor.slice(-1);
-          setInputPreCursor(inputPreCursor.slice(0, -1));
-          setInputPostCursor(lastChar + inputPostCursor);
+        const leftCaret: any = inputRef.current?.selectionStart;
+        if (leftCaret !== 0) {
+          inputRef.current?.setSelectionRange(leftCaret - 1, leftCaret - 1);
         }
         break;
       case 'ArrowRight':
-        if (inputPostCursor.length > 0) {
-          const firstChar = inputPostCursor[0];
-          setInputPostCursor(inputPostCursor.substr(1));
-          setInputPreCursor(inputPreCursor + firstChar);
-        }
+        const rightCaret: any = inputRef.current?.selectionStart;
+        inputRef.current?.setSelectionRange(rightCaret + 1, rightCaret + 1);
         break;
       case 'ArrowUp':
         if (commandHistoryPosition < commandHistory.length - 1) {
           const newPosition = commandHistoryPosition + 1;
           const newCommand = commandHistory[newPosition];
-          setInputPreCursor(newCommand.preCursor);
-          setInputPostCursor(newCommand.postCursor);
+          setInputValue(newCommand.input);
           setCommandHistoryPosition(newPosition);
         }
         break;
       case 'Backspace':
-        setInputPreCursor(inputPreCursor.slice(0, -1));
+        const backspaceCaret: any = inputRef.current?.selectionStart;
+        const backspaceValue = inputValue.slice(0, backspaceCaret - 1) + inputValue.slice(backspaceCaret);
+        inputRef.current?.setSelectionRange(backspaceCaret + 1, backspaceCaret + 1);
+        if (inputRef && inputRef.current) {
+          inputRef.current.value = backspaceValue;
+        }
+        setInputValue(backspaceValue);
         break;
       case 'Delete':
-        setInputPostCursor(inputPostCursor.substr(1));
+        const deleteCaret: any = inputRef.current?.selectionStart;
+        const deleteValue = inputValue.slice(0, deleteCaret) + inputValue.slice(deleteCaret + 1);
+        if (inputRef && inputRef.current) {
+          inputRef.current.value = deleteValue;
+        }
+        setInputValue(deleteValue);
         break;
       case 'Enter':
-        const fullLine = inputPreCursor + inputPostCursor;
         commandHistoryDispatch({
-          preCursor: fullLine,
-          postCursor: '',
+          input: inputValue,
         });
         visualHistoryDispatch({
           type: VisualHistoryActionType.PushItem,
           item: {
             type: VisualHistoryItemType.Input,
-            content: fullLine,
+            content: inputValue,
             prompt: props.prompt || defaultConfiguration.prompt,
           },
         });
-        const tokens = kernel.tokenize(fullLine);
+        const tokens = kernel.tokenize(inputValue);
         const stmts = kernel.parse(tokens);
         stmts.forEach(stmt => kernel.execute(stmt));
-        setInputPreCursor('');
-        setInputPostCursor('');
+        setInputValue('');
         break;
       default:
         // For single keys, if modifiers are held then
@@ -269,19 +274,25 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
           if (keybinding) {
             keybinding.action(kernel);
           } else {
-            setInputPreCursor(inputPreCursor + e.key);
+            const inputCaret: any = inputRef.current?.selectionStart;
+            const keyValue = inputValue.slice(0, inputCaret) + e.key + inputValue.slice(inputCaret);
+            inputRef.current?.setSelectionRange(inputCaret + 1, inputCaret + 1);
+            setInputValue(keyValue);
           }
         }
         break;
     }
-  }, [inputPreCursor, inputPostCursor, visualHistory]);
+  }, [visualHistory, inputValue]);
 
   return (
     <div
       className={`${styles.base} unixorn-base`}
-      onKeyDown={handleKeyDown}
       ref={baseRef}
       tabIndex={1}
+      onClick={() => {
+        inputRef.current?.click();
+        inputRef.current?.focus();
+      }}
     >
       {visualHistory.map((item, idx) => {
         switch (item.type) {
@@ -345,36 +356,17 @@ const Unixorn: React.FunctionComponent<UnixornConfiguration> = props => {
             className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
           >
             <input
-              className={`${css(styles.text, styles.textInputField, {width: inputPreCursor.length + 'ch'})} unixorn-input unixorn-current`}
-              value={inputPreCursor}
-              onChange={e => setInputPreCursor(e.target.value)}
+              className={`${css(styles.text, styles.textInputField, {width: inputValue.length + 'ch'})} unixorn-input unixorn-current`}
+              onKeyDown={handleKeyDown}
+              value={inputRender}
+              ref={inputRef}
             />
           </span>
-          <span
-            className={`${styles.cursor} unixorn-cursor`}
-          />
-        </span>
-        <span
-          className={`${css(styles.text, styles.textInput)} unixorn-input unixorn-current`}
-        >
-          {inputPostCursor}
         </span>
       </div>
     </div>
   );
 };
-
-const animations = {
-  blink: keyframes({
-    '0%': { opacity: 1 },
-    '50%': { opacity: 0 },
-    '100%': { opacity: 1 },
-  }),
-};
-
-const cursorStyle = css({
-  display: 'none',
-});
 
 const styles = {
   base: css({
@@ -382,18 +374,7 @@ const styles = {
     height: '100%',
     overflowY: 'auto',
     width: '100%',
-    [`&:focus .${cursorStyle}`]: {
-      animation: animations.blink,
-      animationIterationCount: 'infinite',
-      animationDuration: '1.5s',
-      border: '#00FF00 1px solid',
-      display: 'inline',
-      height: '100%',
-      position: 'absolute',
-      right: 0,
-    },
   }),
-  cursor: cursorStyle,
   preContainer: css({
     position: 'relative',
   }),
@@ -407,16 +388,6 @@ const styles = {
   }),
   textInput: css({
     color: '#00FF00',
-    [`& input:focus + .${cursorStyle}`]: {
-      animation: animations.blink,
-      animationIterationCount: 'infinite',
-      animationDuration: '1.5s',
-      border: '#00FF00 1px solid',
-      display: 'inline',
-      height: '100%',
-      position: 'absolute',
-      right: 0,
-    },
   }),
   textInputField: css({
     color: 'inherit',
@@ -424,6 +395,7 @@ const styles = {
     border: 'none',
     outline: 'none',
     font: 'inherit',
+    minWidth: '4px',
   }),
   textOutput: css({
     color: '#FFFFFF',

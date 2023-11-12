@@ -3,8 +3,7 @@
  * in the process of being crafted.
  */
 interface CommandHistoryItem {
-  preCursor: string;
-  postCursor: string;
+  input: string;
 }
 
 // Put most recent command at start of history.
